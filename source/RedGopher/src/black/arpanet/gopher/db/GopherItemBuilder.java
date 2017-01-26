@@ -78,18 +78,18 @@ public class GopherItemBuilder  {
 	public static GopherItem buildBinaryFile(String displayText, String gopherPath, String resourcePath, String parentPath, String domainName, int port, boolean persistent) {
 		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.BINARY_FILE, ServerResourceType.LOCAL_FILE);
 		
-		GopherItem item = new GopherItem();
+		GopherItem item = buildGopherItem(displayText, gopherPath, resourcePath, parentPath, domainName, port,
+				persistent, resourceDescriptor);
 		
-		item.setResourceDescriptor(resourceDescriptor);
+		return item;
 		
-		item.setResourceDescriptor(resourceDescriptor);
-		item.setDisplayText(displayText);
-		item.setGopherPath(gopherPath);
-		item.setResourcePath(resourcePath);
-		item.setParentPath(parentPath);
-		item.setDomainName(domainName);
-		item.setPort(port);		
-		item.setPersistOverRestart(persistent);
+	}
+	
+	public static GopherItem buildBinaryArchive(String displayText, String gopherPath, String resourcePath, String parentPath, String domainName, int port, boolean persistent) {
+		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.BIN_ARCHIVE, ServerResourceType.LOCAL_FILE);
+		
+		GopherItem item = buildGopherItem(displayText, gopherPath, resourcePath, parentPath, domainName, port,
+				persistent, resourceDescriptor);
 		
 		return item;
 		
@@ -107,18 +107,8 @@ public class GopherItemBuilder  {
 		
 		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(grt, ServerResourceType.LOCAL_FILE);
 		
-		GopherItem item = new GopherItem();
-		
-		item.setResourceDescriptor(resourceDescriptor);
-		
-		item.setResourceDescriptor(resourceDescriptor);
-		item.setDisplayText(displayText);
-		item.setGopherPath(gopherPath);
-		item.setResourcePath(resourcePath);
-		item.setParentPath(parentPath);
-		item.setDomainName(domainName);
-		item.setPort(port);
-		item.setPersistOverRestart(persistent);
+		GopherItem item = buildGopherItem(displayText, gopherPath, resourcePath, parentPath, domainName, port,
+				persistent, resourceDescriptor);
 		
 		return item;
 	}
@@ -126,18 +116,8 @@ public class GopherItemBuilder  {
 	public static GopherItem buildHtmlFile(String displayText, String gopherPath, String resourcePath, String parentPath, String domainName, int port, boolean persistent) {
 		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.HTML, ServerResourceType.LOCAL_FILE);
 		
-		GopherItem item = new GopherItem();
-		
-		item.setResourceDescriptor(resourceDescriptor);
-		
-		item.setResourceDescriptor(resourceDescriptor);
-		item.setDisplayText(displayText);
-		item.setGopherPath(gopherPath);
-		item.setResourcePath(resourcePath);
-		item.setParentPath(parentPath);
-		item.setDomainName(domainName);
-		item.setPort(port);
-		item.setPersistOverRestart(persistent);
+		GopherItem item = buildGopherItem(displayText, gopherPath, resourcePath, parentPath, domainName, port,
+				persistent, resourceDescriptor);
 		
 		return item;
 		
@@ -192,18 +172,18 @@ public class GopherItemBuilder  {
 	public static GopherItem buildVirtualBinaryFile(String displayText, String gopherPath, String parentPath, byte[] bytes, String domainName, int port, boolean persistent) {
 		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.BINARY_FILE, ServerResourceType.VIRTUAL_FILE);
 		
-		GopherItem item = new GopherItem();
+		GopherItem item = buildVirtualGopherItem(displayText, gopherPath, parentPath, bytes, domainName, port, persistent,
+				resourceDescriptor);
 		
-		item.setResourceDescriptor(resourceDescriptor);
+		return item;
 		
-		item.setResourceDescriptor(resourceDescriptor);
-		item.setDisplayText(displayText);
-		item.setGopherPath(gopherPath);
-		item.setParentPath(parentPath);
-		item.setDomainName(domainName);
-		item.setPort(port);
-		item.setPersistOverRestart(persistent);
-		item.setContent(bytes);
+	}
+	
+	public static GopherItem buildVirtualBinaryArchive(String displayText, String gopherPath, String parentPath, byte[] bytes, String domainName, int port, boolean persistent) {
+		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.BIN_ARCHIVE, ServerResourceType.VIRTUAL_FILE);
+		
+		GopherItem item = buildVirtualGopherItem(displayText, gopherPath, parentPath, bytes, domainName, port, persistent,
+				resourceDescriptor);
 		
 		return item;
 		
@@ -221,18 +201,8 @@ public class GopherItemBuilder  {
 				
 		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(grt, ServerResourceType.VIRTUAL_FILE);
 		
-		GopherItem item = new GopherItem();
-		
-		item.setResourceDescriptor(resourceDescriptor);
-		
-		item.setResourceDescriptor(resourceDescriptor);
-		item.setDisplayText(displayText);
-		item.setGopherPath(gopherPath);
-		item.setParentPath(parentPath);
-		item.setDomainName(domainName);
-		item.setPort(port);
-		item.setPersistOverRestart(persistent);
-		item.setContent(bytes);
+		GopherItem item = buildVirtualGopherItem(displayText, gopherPath, parentPath, bytes, domainName, port, persistent,
+				resourceDescriptor);
 		
 		return item;
 		
@@ -241,18 +211,8 @@ public class GopherItemBuilder  {
 	public static GopherItem buildVirtualHtmlFile(String displayText, String gopherPath, String parentPath, byte[] bytes, String domainName, int port, boolean persistent) {
 		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.HTML, ServerResourceType.VIRTUAL_FILE);
 		
-		GopherItem item = new GopherItem();
-		
-		item.setResourceDescriptor(resourceDescriptor);
-		
-		item.setResourceDescriptor(resourceDescriptor);
-		item.setDisplayText(displayText);
-		item.setGopherPath(gopherPath);
-		item.setParentPath(parentPath);
-		item.setDomainName(domainName);
-		item.setPort(port);
-		item.setPersistOverRestart(persistent);
-		item.setContent(bytes);
+		GopherItem item = buildVirtualGopherItem(displayText, gopherPath, parentPath, bytes, domainName, port, persistent,
+				resourceDescriptor);
 		
 		return item;
 		
@@ -269,6 +229,40 @@ public class GopherItemBuilder  {
 		item.setPort(port);		
 		item.setPersistOverRestart(persistOverRestart);
 		
+		return item;
+	}
+
+	private static GopherItem buildGopherItem(String displayText, String gopherPath, String resourcePath,
+			String parentPath, String domainName, int port, boolean persistent, ResourceDescriptor resourceDescriptor) {
+		GopherItem item = new GopherItem();
+		
+		item.setResourceDescriptor(resourceDescriptor);
+		
+		item.setResourceDescriptor(resourceDescriptor);
+		item.setDisplayText(displayText);
+		item.setGopherPath(gopherPath);
+		item.setResourcePath(resourcePath);
+		item.setParentPath(parentPath);
+		item.setDomainName(domainName);
+		item.setPort(port);
+		item.setPersistOverRestart(persistent);
+		return item;
+	}
+
+	private static GopherItem buildVirtualGopherItem(String displayText, String gopherPath, String parentPath, byte[] bytes,
+			String domainName, int port, boolean persistent, ResourceDescriptor resourceDescriptor) {
+		GopherItem item = new GopherItem();
+		
+		item.setResourceDescriptor(resourceDescriptor);
+		
+		item.setResourceDescriptor(resourceDescriptor);
+		item.setDisplayText(displayText);
+		item.setGopherPath(gopherPath);
+		item.setParentPath(parentPath);
+		item.setDomainName(domainName);
+		item.setPort(port);
+		item.setPersistOverRestart(persistent);
+		item.setContent(bytes);
 		return item;
 	}
 

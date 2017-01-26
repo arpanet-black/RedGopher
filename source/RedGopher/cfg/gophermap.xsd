@@ -11,21 +11,14 @@
 			<xs:element name="directory" type="gopher:directory" />
 			<xs:element name="textFile" type="gopher:textFile" />
 			<xs:element name="binaryFile" type="gopher:binaryFile" />
-			<xs:element name="binaryArchiveFile" type="gopher:binaryArchiveFile" />
+			<xs:element name="binaryArchive" type="gopher:binaryArchive" />
 			<xs:element name="image" type="gopher:image" />
 			<xs:element name="htmlFile" type="gopher:htmlFile" />			
 			<xs:element name="rss2Feed" type="gopher:rss2Feed" />
-			<!-- 
-			<xs:element name="remoteDirectory" type="gopher:remoteDirectory" />
-			<xs:element name="remoteTextFile" type="gopher:remoteTextFile" />
-			<xs:element name="remoteBinaryFile" type="gopher:remoteBinaryFile" />
-			<xs:element name="remoteImage" type="gopher:remoteImage" />
-			<xs:element name="remoteHtmlFile" type="gopher:remoteHtmlFile" />
-			 -->	
 			<xs:element name="virtualDirectory" type="gopher:virtualDirectory" />
 			<xs:element name="virtualTextFile" type="gopher:virtualTextFile" />
 			<xs:element name="virtualBinaryFile" type="gopher:virtualBinaryFile" />
-			<xs:element name="virtualBinaryArchiveFile" type="gopher:virtualBinaryArchiveFile" />
+			<xs:element name="virtualBinaryArchive" type="gopher:virtualBinaryArchive" />
 			<xs:element name="virtualImage" type="gopher:virtualImage" />
 			<xs:element name="virtualHtmlFile" type="gopher:virtualHtmlFile" />			
 		</xs:choice>
@@ -55,7 +48,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 	
-	<xs:complexType name="binaryArchiveFile">
+	<xs:complexType name="binaryArchive">
 		<xs:complexContent>
 			<xs:extension base="gopher:item">
 			</xs:extension>
@@ -85,44 +78,6 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
-	<!-- REMOTE ITEMS -->
-	<!-- 
-	<xs:complexType name="remoteDirectory">
-		<xs:complexContent>
-			<xs:extension base="gopher:remoteItem">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	
-	<xs:complexType name="remoteTextFile">
-		<xs:complexContent>
-			<xs:extension base="gopher:remoteItem">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	
-	<xs:complexType name="remoteBinaryFile">
-		<xs:complexContent>
-			<xs:extension base="gopher:remoteItem">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>	
-	
-	<xs:complexType name="remoteImage">
-		<xs:complexContent>
-			<xs:extension base="gopher:remoteItem">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	
-	<xs:complexType name="remoteHtmlFile">
-		<xs:complexContent>
-			<xs:extension base="gopher:remoteItem">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	 -->
 	 
 	<!-- VIRTUAL ITEMS -->
 	
@@ -156,7 +111,7 @@
 		</xs:complexContent>
 	</xs:complexType>	
 	
-	<xs:complexType name="virtualBinaryArchiveFile">
+	<xs:complexType name="virtualBinaryArchive">
 		<xs:complexContent>
 			<xs:extension base="gopher:item">
 				<xs:sequence>
@@ -188,19 +143,6 @@
 	</xs:complexType>
 
 	<!-- ABSTRACT ITEMS -->
-	
-	<!-- 
-	<xs:complexType name="remoteItem" abstract="true">
-		<xs:complexContent>
-			<xs:extension base="gopher:item">
-				<xs:sequence>
-					<xs:element name="server" type="xs:string" minOccurs="0" maxOccurs="1" />
-					<xs:element name="port" type="xs:integer" minOccurs="0" maxOccurs="1" />
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>		
-	</xs:complexType>
-	 -->
 	
 	<xs:complexType name="item" abstract="true">
 		<xs:sequence>
