@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gopher:gophermap xmlns:gopher="http://arpanet.black/gopher" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://arpanet.black/gopher gophermap.xsd ">
+  
+  <info>Welcome to RedGopher</info>
+  <!-- <error>Oops.</error> -->
+  <info></info>
+  
+  <info>A File Resource Example</info>
+  <item>
+    <displayText>A Resource Text File</displayText>
+    <gopherType>TEXT_FILE</gopherType>
+    <resourceType>LOCAL_FILE</resourceType>
+    <gopherPath>gopherPath</gopherPath>
+    <resourcePath>resource.txt</resourcePath>
+  </item>
+
+  <info>A Directory Resource Example</info>
+  <item>
+    <displayText>A Sub-Directory</displayText>
+    <gopherType>DIRECTORY</gopherType>
+    <resourceType>LOCAL_DIRECTORY</resourceType>
+    <resourcePath>/images</resourcePath>
+  </item>
+  
+  <info>A BLOB Resource Example</info>
+  <item>
+    <displayText>A BLOB</displayText>
+    <gopherType>TEXT_FILE</gopherType>
+    <resourceType>VIRTUAL_FILE</resourceType>
+    <gopherPath>testfile.txt</gopherPath>
+    <content>This is a test!
+    Can it do 2 lines??</content>    
+  </item>
+  
+  <info>A Virtual File Resource Example</info>
+  <item>
+    <displayText>A BLOB</displayText>
+    <gopherType>TEXT_FILE</gopherType>
+    <resourceType>VIRTUAL_FILE</resourceType>
+    <gopherPath>testfile2.txt</gopherPath>
+    <content>this is crazy</content>    
+  </item>
+  
+  <info>An RSS2 Feed Resource Example</info>
+  <item>
+    <displayText>VC Fed Appple II Forums RSS</displayText>
+    <gopherType>DIRECTORY</gopherType> <!-- Optional -->
+    <resourceType>RSS2_FEED</resourceType>
+    <gopherPath>/feeds/vcfed-apple-ii</gopherPath>
+    <resourcePath>http://www.vcfed.org/forum/external.php?type=RSS2&amp;forumids=20</resourcePath>
+  </item>
+  
+</gopher:gophermap>

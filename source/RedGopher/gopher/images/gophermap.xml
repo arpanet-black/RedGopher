@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gopher:gophermap xmlns:gopher="http://arpanet.black/gopher/gophermap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://arpanet.black/gopher/gophermap gophermap.xsd ">
+  
+  <info>Welcome to RedGopher: Images</info>
+  <!-- <error>Oops.</error> -->
+  
+  <info></info>
+  <info>A PNG File Resource Example</info>
+
+  <item>
+    <displayText>A PNG Image File</displayText>
+	<gopherType>PNG_IMAGE_FILE</gopherType>
+	<resourceType>LOCAL_FILE</resourceType>
+	<gopherPath>/images/extra/division.png</gopherPath>
+	<resourcePath>division.png</resourcePath>
+  </item>
+
+  
+  <info></info>
+  <info>A JPG File Resource Example</info>
+  <item>
+    <displayText>A JPG Image File</displayText>
+    <gopherType>IMAGE_FILE</gopherType>
+    <resourceType>LOCAL_FILE</resourceType>
+    <gopherPath>/images/funny.jpg</gopherPath>
+    <resourcePath>funny.jpg</resourcePath>
+  </item>
+  
+  <info></info>
+  <info>A GIF File Resource Example</info>
+  <item>
+    <displayText>A GIF Image File</displayText>
+    <gopherType>GIF_GRAPHICS_FILE</gopherType>
+    <resourceType>LOCAL_FILE</resourceType>
+    <gopherPath>/images/memory_map.gif</gopherPath>
+    <resourcePath>memory_map.gif</resourcePath>
+  </item>
+  
+</gopher:gophermap>

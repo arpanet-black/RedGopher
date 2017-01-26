@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:gopher="http://arpanet.black/gopher" 
+	targetNamespace="http://arpanet.black/gopher">
+
+	<!-- COMPLEX TYPES -->
+	<xs:complexType name="gophermap">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="info" type="xs:string" />
+			<xs:element name="error" type="xs:string" />
+			<xs:element name="item" type="gopher:item" />
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="item">
+		<xs:sequence>
+			<xs:element name="displayText" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="gopherType" type="gopher:gopherType" minOccurs="0" maxOccurs="1" default="BINARY_FILE" />
+			<xs:element name="resourceType" type="gopher:resourceType" minOccurs="0" maxOccurs="1" default="LOCAL_FILE" />
+			<xs:element name="server" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="port" type="xs:integer" minOccurs="0" maxOccurs="1" />
+			<xs:element name="gopherPath" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="parentPath" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="resourcePath" type="xs:string" minOccurs="0" maxOccurs="1" />			
+			<xs:element name="content" type="xs:base64Binary" minOccurs="0" maxOccurs="1" />
+			<xs:element name="persistent" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false" />
+			<xs:element name="directoryContents" type="gopher:directoryContents" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="directoryContents">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="info" type="xs:string" />
+			<xs:element name="error" type="xs:string" />
+			<xs:element name="item" type="gopher:item" />
+		</xs:choice>
+	</xs:complexType>
+	
+	<!-- ENUMERATIONS -->
+	<xs:simpleType name="gopherType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="TEXT_FILE" />
+			<xs:enumeration value="DIRECTORY" />
+			<xs:enumeration value="CSO_SEARCH" />
+			<xs:enumeration value="ERROR" />				
+			<xs:enumeration value="BINHEX_ENCODED" />
+			<xs:enumeration value="BIN_ARCHIVE" />
+			<xs:enumeration value="UNIX_UUENCODED" />
+			<xs:enumeration value="INDEX_SEARCH_SERVER" />
+			<xs:enumeration value="TELNET" />
+			<xs:enumeration value="BINARY_FILE" />
+			<xs:enumeration value="REDUNDANT_SERVER" />
+			<xs:enumeration value="TN3270_SESSION" />
+			<xs:enumeration value="GIF_GRAPHICS_FILE" />
+			<xs:enumeration value="PNG_IMAGE_FILE" />
+			<xs:enumeration value="IMAGE_FILE" />
+			<xs:enumeration value="INFORMATION_TEXT" />
+			<xs:enumeration value="HTML" />
+			<xs:enumeration value="AUDIO" />
+			<xs:enumeration value="NONE" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="resourceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="LOCAL_FILE" />
+			<xs:enumeration value="LOCAL_DIRECTORY" />
+			<xs:enumeration value="VIRTUAL_FILE" />
+			<xs:enumeration value="VIRTUAL_DIRECTORY" />
+			<xs:enumeration value="RSS2_FEED" />			
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- DOCUMENT ROOT ELEMENT -->
+	<xs:element name="gophermap" type="gopher:gophermap"/>
+	
+</xs:schema>

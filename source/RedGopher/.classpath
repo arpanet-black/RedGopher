@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="cfg"/>
+	<classpathentry kind="src" path="sql"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.web"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_101">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/apache-commons/commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/apache-commons/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="lib/hsqldb/hsqldb.jar"/>
+	<classpathentry kind="lib" path="lib/log4j/log4j-core-2.7.jar"/>
+	<classpathentry kind="lib" path="lib/openjpa/openjpa-all-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/jdom/jdom-2.0.6.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/httpclient-4.5.2.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/httpcore-4.4.4.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
