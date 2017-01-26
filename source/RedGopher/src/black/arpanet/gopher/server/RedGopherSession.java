@@ -1,12 +1,11 @@
 package black.arpanet.gopher.server;
 
-import static black.arpanet.gopher.util.RedGopherLogUtil.t;
 import static black.arpanet.gopher.util.RedGopherLogUtil.d;
-import static black.arpanet.gopher.util.RedGopherLogUtil.w;
 import static black.arpanet.gopher.util.RedGopherLogUtil.e;
+import static black.arpanet.gopher.util.RedGopherLogUtil.t;
+import static black.arpanet.gopher.util.RedGopherLogUtil.w;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,11 +54,8 @@ public class RedGopherSession extends Thread {
 				//Send the result back to the client
 				socket.getOutputStream().write(buffer, 0, buffer.length);													
 
-			} catch (IOException e) {
-				//Print any errors
-				e.printStackTrace();
-			} catch(Throwable t) {
-				t.printStackTrace();
+			} catch (Exception e) {
+				e(LOG, "Exception encountrered accepting session.", e);
 			} finally {
 				//Gopher is stateless so go ahead and close
 				IOUtils.closeQuietly(socket);
@@ -104,6 +100,7 @@ public class RedGopherSession extends Thread {
 
 	}
 
+	//Load resource content
 	private byte[] getContentForRequest(String input) {
 
 		List<GopherItem> items = null;
@@ -121,6 +118,7 @@ public class RedGopherSession extends Thread {
 		return buildGopherResponse(items);
 	}
 
+	//Build a response based on the items being sent back
 	private byte[] buildGopherResponse(List<GopherItem> items) {
 
 		if(items.size() == 1) {
@@ -154,6 +152,7 @@ public class RedGopherSession extends Thread {
 		return buildMenu(items).getBytes();
 	}
 
+	//Load a file from the local file system
 	private byte[] loadLocalFile(GopherItem i) {
 		byte[] bytes = null;
 
@@ -177,6 +176,7 @@ public class RedGopherSession extends Thread {
 		return bytes;
 	}
 
+	//Build a menu from the content items
 	private String buildMenu(List<GopherItem> items) {
 		StringBuilder sb = new StringBuilder();
 
