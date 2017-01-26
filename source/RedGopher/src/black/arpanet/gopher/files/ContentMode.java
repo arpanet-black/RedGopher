@@ -1,4 +1,4 @@
-package black.arpanet.gopher.server;
+package black.arpanet.gopher.files;
 
 public enum ContentMode {
 

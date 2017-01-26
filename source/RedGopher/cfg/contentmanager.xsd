@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:gopherContent="http://arpanet.black/gopher/content" 
+	targetNamespace="http://arpanet.black/gopher/content">
+
+	<!-- COMPLEX TYPES -->
+	<xs:complexType name="contentManagers">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="manager" type="gopherContent:contentManager" />			
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="contentManager">
+		<xs:sequence>
+			<xs:element name="className" type="xs:string" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- DOCUMENT ROOT ELEMENT -->
+	<xs:element name="contentManagers" type="gopherContent:contentManagers"/>
+	
+</xs:schema>
