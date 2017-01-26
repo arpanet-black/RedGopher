@@ -38,8 +38,8 @@ public class GopherItem {
 	@Column(name="gopher_path")
 	private String gopherPath;
 	
-	@Column(name="resource_uri")
-	private String resourceUri;
+	@Column(name="resource_path")
+	private String resourcePath;
 	
 	@Column(name="domain_name")
 	private String domainName;
@@ -101,12 +101,12 @@ public class GopherItem {
 		this.gopherPath = gopherPath;
 	}
 
-	public String getResourceUri() {
-		return resourceUri;
+	public String getResourcePath() {
+		return resourcePath;
 	}
 
-	public void setResourceUri(String resourceUri) {
-		this.resourceUri = resourceUri;
+	public void setResourcePath(String resourcePath) {
+		this.resourcePath = resourcePath;
 	}
 
 	public String getDomainName() {

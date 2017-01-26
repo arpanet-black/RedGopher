@@ -15,6 +15,8 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import black.arpanet.gopher.GopherResourceType;
+import black.arpanet.gopher.ServerResourceType;
 import black.arpanet.gopher.db.entities.GopherItem;
 import black.arpanet.gopher.db.entities.ResourceDescriptor;
 import black.arpanet.gopher.db.entities.ServerFileType;
@@ -70,58 +72,14 @@ public class RedGopherDbManager {
 		em.createNamedQuery("GopherItem.deleteVolatileItems").executeUpdate();
 		em.getTransaction().commit();
 	}
-
-	public static GopherItem createGopherItem(ResourceDescriptor resourceDescriptor, String gopherPath, String resourceUri, String displayText, String domainName, int port, boolean persistOverRestart, String parentPath) {
-		t(LOG,"In createGopherItem(1).");
-		GopherItem gi = null;
-
-		gi = new GopherItem();
-		gi.setResourceDescriptor(resourceDescriptor);
-		gi.setGopherPath(gopherPath);
-		gi.setResourceUri(resourceUri);
-		gi.setDisplayText(displayText);
-		gi.setDomainName(domainName);
-		gi.setPersistOverRestart(persistOverRestart);
-		gi.setPort(port);
-		gi.setParentPath(parentPath);
-
-		gi = em.merge(gi);
-
-		t(LOG,"Out createGopherItem(1).");
-		return gi;
-	}
 	
-	public static GopherItem createGopherItem(GopherResourceType gopherResourceType, ServerResourceType serverResourceType, String gopherPath, String resourceUri, String displayText, byte[] content, String domainName, int port, boolean persistOverRestart, String parentPath) {
-		t(LOG,"In createGopherItem(2).");
-		
-		ResourceDescriptor resourceDescriptor = findResourceDescriptor(gopherResourceType, serverResourceType);
-		
-		GopherItem gi = null;
+	public static GopherItem mergeGopherItem(GopherItem gi) {
 
-		gi = new GopherItem();
-		gi.setResourceDescriptor(resourceDescriptor);
-		gi.setGopherPath(gopherPath);
-		gi.setResourceUri(resourceUri);
-		gi.setDisplayText(displayText);
-		gi.setDomainName(domainName);
-		gi.setPersistOverRestart(persistOverRestart);
-		gi.setPort(port);
-		gi.setParentPath(parentPath);
-		gi.setContent(content);
-
-		gi = em.merge(gi);
-
-		t(LOG,"Out createGopherItem(2).");
-		return gi;
-	}
-
-	//Keep transactional to preserve order
-	public static GopherItem createGopherItemWithTrans(GopherResourceType gopherResourceType, ServerResourceType serverResourceType, String gopherPath, String resourceUri, String displayText, byte[] content, String domainName, int port, boolean persistOverRestart, String parentPath) {
+		//Item commit order needs to be maintained
 		em.getTransaction().begin();
-		GopherItem gi = createGopherItem(gopherResourceType, serverResourceType, gopherPath, resourceUri, displayText, content, domainName, port, persistOverRestart, parentPath);
-		em.flush();
+		gi = em.merge(gi);
 		em.getTransaction().commit();
-		
+
 		return gi;
 	}
 

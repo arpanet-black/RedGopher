@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gopher:gophermap xmlns:gopher="http://arpanet.black/gopher/files" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://arpanet.black/gopher/files gophermap.xsd ">
+  
+  <info>Welcome to RedGopher</info>
+  <error>Oops.</error>
+  <info></info>
+  
+  <info>A File Resource Example</info>
+  <textFile>
+  	<displayText>A Resource Text File</displayText>
+    <gopherPath>gopherPath</gopherPath>
+    <resourcePath>resource.txt</resourcePath>
+  </textFile>
+  
+  <info>A Directory Resource Example</info>
+  <directory>
+    <displayText>A Sub-Directory</displayText>
+    <resourcePath>/images</resourcePath>
+  </directory>
+  
+  <info>A BLOB Resource Example</info>
+  <virtualBinaryFile>
+    <displayText>A BLOB</displayText>
+    <gopherPath>testfile.txt</gopherPath>
+    <base64EncodedContent>VGhpcyBpcyBhIHRlc3QuDQpJIGFtIGVuY29kaW5nIG11bHRpcGxlIGxpbmVzIGludG8gQmFzZTY0Lg0KRG9lcyBpdCBwcmVzZXJ2ZSB0aGlzIHdlbGw/</base64EncodedContent>
+  </virtualBinaryFile>
+  
+  <info>A Virtual File Resource Example</info>
+  <virtualTextFile>
+    <displayText>A Text File</displayText>
+    <gopherPath>testfile2.txt</gopherPath>
+    <textContent>This is a test!
+    Can it do 2 lines??</textContent>
+  </virtualTextFile>
+  
+  <info>An RSS2 Feed Resource Example</info>
+  <info>Coming soon...</info>
+  
+</gopher:gophermap>

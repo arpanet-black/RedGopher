@@ -6,6 +6,8 @@ import static black.arpanet.gopher.util.RedGopherLogUtil.w;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import black.arpanet.gopher.GopherResourceType;
+import black.arpanet.gopher.ServerResourceType;
 import black.arpanet.gopher.db.entities.ResourceDescriptor;
 
 public class RedGopherDbHelper {
@@ -100,7 +102,13 @@ public class RedGopherDbHelper {
 			RedGopherDbManager.createResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.VIRTUAL_DIRECTORY, "RSS2 xml feed.");
 			
 			//Virtual files
-			RedGopherDbManager.createResourceDescriptor(GopherResourceType.TEXT_FILE, ServerResourceType.VIRTUAL_FILE, "Virtual file.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.TEXT_FILE, ServerResourceType.VIRTUAL_FILE, "Virtual Text file.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.BINARY_FILE, ServerResourceType.VIRTUAL_FILE, "Virtual Binary file.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.BIN_ARCHIVE, ServerResourceType.VIRTUAL_FILE, "Virtual Binary Archive file.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.HTML, ServerResourceType.VIRTUAL_FILE, "Virtual HTML file.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.IMAGE_FILE, ServerResourceType.VIRTUAL_FILE, "Virtual image file.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.GIF_GRAPHICS_FILE, ServerResourceType.VIRTUAL_FILE, "Virtual GIF file.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.PNG_IMAGE_FILE, ServerResourceType.VIRTUAL_FILE, "Virtual PNG file.");
 
 			//Resources for RSS2 Feeds
 			RedGopherDbManager.createResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.RSS2_FEED, "RSS2 xml feed.");

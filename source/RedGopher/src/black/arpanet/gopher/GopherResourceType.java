@@ -1,4 +1,4 @@
-package black.arpanet.gopher.db;
+package black.arpanet.gopher;
 
 /*
 0 Item is a file

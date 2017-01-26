@@ -3,40 +3,216 @@
 	xmlns:gopher="http://arpanet.black/gopher/files" 
 	targetNamespace="http://arpanet.black/gopher/files">
 
-	<!-- COMPLEX TYPES -->
+	<!-- GOPHER MAP -->
 	<xs:complexType name="gophermap">
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="info" type="xs:string" />
 			<xs:element name="error" type="xs:string" />
-			<xs:element name="item" type="gopher:item" />
+			<xs:element name="directory" type="gopher:directory" />
+			<xs:element name="textFile" type="gopher:textFile" />
+			<xs:element name="binaryFile" type="gopher:binaryFile" />
+			<xs:element name="binaryArchiveFile" type="gopher:binaryArchiveFile" />
+			<xs:element name="image" type="gopher:image" />
+			<xs:element name="htmlFile" type="gopher:htmlFile" />			
+			<xs:element name="rss2Feed" type="gopher:rss2Feed" />
+			<!-- 
+			<xs:element name="remoteDirectory" type="gopher:remoteDirectory" />
+			<xs:element name="remoteTextFile" type="gopher:remoteTextFile" />
+			<xs:element name="remoteBinaryFile" type="gopher:remoteBinaryFile" />
+			<xs:element name="remoteImage" type="gopher:remoteImage" />
+			<xs:element name="remoteHtmlFile" type="gopher:remoteHtmlFile" />
+			 -->	
+			<xs:element name="virtualDirectory" type="gopher:virtualDirectory" />
+			<xs:element name="virtualTextFile" type="gopher:virtualTextFile" />
+			<xs:element name="virtualBinaryFile" type="gopher:virtualBinaryFile" />
+			<xs:element name="virtualBinaryArchiveFile" type="gopher:virtualBinaryArchiveFile" />
+			<xs:element name="virtualImage" type="gopher:virtualImage" />
+			<xs:element name="virtualHtmlFile" type="gopher:virtualHtmlFile" />			
 		</xs:choice>
 	</xs:complexType>
 	
-	<xs:complexType name="item">
+	
+	<!-- BASIC ITEMS -->
+	
+	<xs:complexType name="directory">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="textFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="binaryFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="binaryArchiveFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="image">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+				<xs:sequence>
+					<xs:element name="imageType" type="gopher:imageType" minOccurs="0" maxOccurs="1" default="OTHER"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="htmlFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="rss2Feed">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- REMOTE ITEMS -->
+	<!-- 
+	<xs:complexType name="remoteDirectory">
+		<xs:complexContent>
+			<xs:extension base="gopher:remoteItem">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="remoteTextFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:remoteItem">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="remoteBinaryFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:remoteItem">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+	
+	<xs:complexType name="remoteImage">
+		<xs:complexContent>
+			<xs:extension base="gopher:remoteItem">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="remoteHtmlFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:remoteItem">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	 -->
+	 
+	<!-- VIRTUAL ITEMS -->
+	
+	<xs:complexType name="virtualDirectory">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+				<xs:sequence>
+					<xs:element name="gophermap" type="gopher:gophermap" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="virtualTextFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+				<xs:sequence>
+					<xs:element name="textContent" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="virtualBinaryFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+				<xs:sequence>
+					<xs:element name="base64EncodedContent" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+	
+	<xs:complexType name="virtualBinaryArchiveFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+				<xs:sequence>
+					<xs:element name="base64EncodedContent" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="virtualImage">
+		<xs:complexContent>
+			<xs:extension base="gopher:image">
+				<xs:sequence>
+					<xs:element name="base64EncodedContent" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="virtualHtmlFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+				<xs:choice minOccurs="1" maxOccurs="1">
+					<xs:element name="escapedHtml" type="xs:string"/>
+					<xs:element name="base64EncodedContent" type="xs:string"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- ABSTRACT ITEMS -->
+	
+	<!-- 
+	<xs:complexType name="remoteItem" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+				<xs:sequence>
+					<xs:element name="server" type="xs:string" minOccurs="0" maxOccurs="1" />
+					<xs:element name="port" type="xs:integer" minOccurs="0" maxOccurs="1" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>		
+	</xs:complexType>
+	 -->
+	
+	<xs:complexType name="item" abstract="true">
 		<xs:sequence>
-			<xs:element name="displayText" type="xs:string" minOccurs="1" maxOccurs="1" />
-			<xs:element name="gopherType" type="gopher:gopherType" minOccurs="0" maxOccurs="1" default="BINARY_FILE" />
-			<xs:element name="resourceType" type="gopher:resourceType" minOccurs="0" maxOccurs="1" default="LOCAL_FILE" />
-			<xs:element name="server" type="xs:string" minOccurs="0" maxOccurs="1" />
-			<xs:element name="port" type="xs:integer" minOccurs="0" maxOccurs="1" />
+			<xs:element name="displayText" type="xs:string" minOccurs="1" maxOccurs="1" />			
 			<xs:element name="gopherPath" type="xs:string" minOccurs="0" maxOccurs="1" />
-			<xs:element name="parentPath" type="xs:string" minOccurs="0" maxOccurs="1" />
 			<xs:element name="resourcePath" type="xs:string" minOccurs="0" maxOccurs="1" />			
-			<xs:element name="content" type="xs:base64Binary" minOccurs="0" maxOccurs="1" />
 			<xs:element name="persistent" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false" />
-			<xs:element name="directoryContents" type="gopher:directoryContents" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 	
-	<xs:complexType name="directoryContents">
-		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="info" type="xs:string" />
-			<xs:element name="error" type="xs:string" />
-			<xs:element name="item" type="gopher:item" />
-		</xs:choice>
-	</xs:complexType>
-	
 	<!-- ENUMERATIONS -->
+	<!-- 
 	<xs:simpleType name="gopherType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="TEXT_FILE" />
@@ -60,14 +236,13 @@
 			<xs:enumeration value="NONE" />
 		</xs:restriction>
 	</xs:simpleType>
-
-	<xs:simpleType name="resourceType">
+	 -->
+	 
+	<xs:simpleType name="imageType">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="LOCAL_FILE" />
-			<xs:enumeration value="LOCAL_DIRECTORY" />
-			<xs:enumeration value="VIRTUAL_FILE" />
-			<xs:enumeration value="VIRTUAL_DIRECTORY" />
-			<xs:enumeration value="RSS2_FEED" />			
+			<xs:enumeration value="GIF" />
+			<xs:enumeration value="PNG" />
+			<xs:enumeration value="OTHER" />
 		</xs:restriction>
 	</xs:simpleType>
 

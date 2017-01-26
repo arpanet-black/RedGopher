@@ -21,9 +21,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import black.arpanet.gopher.db.GopherResourceType;
+import black.arpanet.gopher.GopherResourceType;
+import black.arpanet.gopher.ServerResourceType;
 import black.arpanet.gopher.db.RedGopherDbManager;
-import black.arpanet.gopher.db.ServerResourceType;
 import black.arpanet.gopher.db.entities.GopherItem;
 
 public class RedGopherSession extends Thread {
@@ -157,7 +157,7 @@ public class RedGopherSession extends Thread {
 		byte[] bytes = null;
 
 		try {
-			URI resUri = new URI(i.getResourceUri());
+			URI resUri = new URI(i.getResourcePath());
 			d(LOG, "Reading local file URI: " + resUri);					
 			File resource = new File(resUri);
 			return Files.readAllBytes(resource.toPath());
@@ -166,10 +166,10 @@ public class RedGopherSession extends Thread {
 			e(LOG, String.format("Exception attempting to obtain resource URI for GopherItem ID: %s", i.getId()), urie);
 			urie.printStackTrace();
 		} catch (FileNotFoundException fnfe) {
-			e(LOG, String.format("Exception attempting to open GopherItem resource URI for reading. ID: %s, URI: %s", i.getId(), i.getResourceUri()), fnfe);
+			e(LOG, String.format("Exception attempting to open GopherItem resource URI for reading. ID: %s, URI: %s", i.getId(), i.getResourcePath()), fnfe);
 			fnfe.printStackTrace();
 		} catch (IOException ioe) {
-			e(LOG, String.format("Exception attempting to read from file. Gopher ID: %s, URI: %s", i.getId(), i.getResourceUri()), ioe);
+			e(LOG, String.format("Exception attempting to read from file. Gopher ID: %s, URI: %s", i.getId(), i.getResourcePath()), ioe);
 			ioe.printStackTrace();
 		}
 		
