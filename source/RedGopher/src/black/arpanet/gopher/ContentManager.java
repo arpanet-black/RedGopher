@@ -16,4 +16,16 @@ public abstract class ContentManager extends Thread {
 		this.alive = false;
 	}
 
+	@Override
+	public void run() {
+		super.run();
+		
+		while(alive) {
+			alive = update();
+		}
+		
+	}
+	
+	
+
 }

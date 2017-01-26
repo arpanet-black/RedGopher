@@ -3,7 +3,9 @@
   <manager>
     <className>black.arpanet.gopher.files.FileContentManager</className>    
   </manager>
+  <!-- 
   <manager>
   	<className>black.arpanet.gopher.feeds.rss2.Rss2ContentManager</className>
   </manager>
+   -->
 </gopherContent:contentManagers>

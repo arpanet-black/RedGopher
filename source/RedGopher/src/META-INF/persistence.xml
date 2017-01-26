@@ -13,7 +13,7 @@
 		<properties>
 
 			<property name="openjpa.ConnectionURL"
-				value="jdbc:hsqldb:file:C:/nick/dev/sandbox/RedGopher/data/redgopherdb" />
+				value="jdbc:hsqldb:file:C:/Users/nicholas.waun/git/RedGopher/source/RedGopher/data/redgopherdb" />
 			<property name="openjpa.ConnectionDriverName" value="org.hsqldb.jdbcDriver" />
 			<property name="openjpa.ConnectionUserName" value="sa" />
 			<property name="openjpa.ConnectionPassword" value="" />
@@ -22,11 +22,11 @@
 			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)" />
 
 			<!-- Log SQL from JPA -->
-
+			<!-- 
 			<property name="openjpa.Log" value="SQL=TRACE"></property>
 			<property name="openjpa.ConnectionFactoryProperties"
 				value="PrintParameters=True, PrettyPrint=true, PrettyPrintLineLength=80" />
-
+ 			-->
 
 		</properties>
 
