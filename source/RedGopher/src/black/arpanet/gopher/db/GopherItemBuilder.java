@@ -46,10 +46,11 @@ public class GopherItemBuilder  {
 
 		item.setResourceDescriptor(resourceDescriptor);
 		item.setDisplayText(displayText);
-		item.setDomainName(itemDomain);
-		item.setPort(itemPort);
+		item.setGopherPath(gopherPath);
 		item.setResourcePath(resourcePath);
 		item.setParentPath(currentGopherDir);
+		item.setDomainName(itemDomain);
+		item.setPort(itemPort);		
 		item.setPersistOverRestart(persistent);
 
 		return item;
@@ -63,10 +64,11 @@ public class GopherItemBuilder  {
 
 		item.setResourceDescriptor(resourceDescriptor);
 		item.setDisplayText(displayText);
-		item.setDomainName(domainName);
-		item.setPort(port);
+		item.setGopherPath(gopherPath);
 		item.setResourcePath(resourcePath);
 		item.setParentPath(parentPath);
+		item.setDomainName(domainName);		
+		item.setPort(port);
 		item.setPersistOverRestart(persistent);
 
 		return item;
@@ -82,10 +84,11 @@ public class GopherItemBuilder  {
 		
 		item.setResourceDescriptor(resourceDescriptor);
 		item.setDisplayText(displayText);
-		item.setDomainName(domainName);
-		item.setPort(port);
+		item.setGopherPath(gopherPath);
 		item.setResourcePath(resourcePath);
 		item.setParentPath(parentPath);
+		item.setDomainName(domainName);
+		item.setPort(port);		
 		item.setPersistOverRestart(persistent);
 		
 		return item;
@@ -110,10 +113,11 @@ public class GopherItemBuilder  {
 		
 		item.setResourceDescriptor(resourceDescriptor);
 		item.setDisplayText(displayText);
-		item.setDomainName(domainName);
-		item.setPort(port);
+		item.setGopherPath(gopherPath);
 		item.setResourcePath(resourcePath);
 		item.setParentPath(parentPath);
+		item.setDomainName(domainName);
+		item.setPort(port);
 		item.setPersistOverRestart(persistent);
 		
 		return item;
@@ -128,10 +132,11 @@ public class GopherItemBuilder  {
 		
 		item.setResourceDescriptor(resourceDescriptor);
 		item.setDisplayText(displayText);
-		item.setDomainName(domainName);
-		item.setPort(port);
+		item.setGopherPath(gopherPath);
 		item.setResourcePath(resourcePath);
 		item.setParentPath(parentPath);
+		item.setDomainName(domainName);
+		item.setPort(port);
 		item.setPersistOverRestart(persistent);
 		
 		return item;
@@ -173,9 +178,10 @@ public class GopherItemBuilder  {
 		
 		item.setResourceDescriptor(resourceDescriptor);
 		item.setDisplayText(displayText);
+		item.setGopherPath(gopherPath);
+		item.setParentPath(parentPath);		
 		item.setDomainName(domainName);
-		item.setPort(port);
-		item.setParentPath(parentPath);
+		item.setPort(port);		
 		item.setPersistOverRestart(persistent);
 		item.setContent(content.getBytes());
 		
@@ -192,9 +198,10 @@ public class GopherItemBuilder  {
 		
 		item.setResourceDescriptor(resourceDescriptor);
 		item.setDisplayText(displayText);
+		item.setGopherPath(gopherPath);
+		item.setParentPath(parentPath);
 		item.setDomainName(domainName);
 		item.setPort(port);
-		item.setParentPath(parentPath);
 		item.setPersistOverRestart(persistent);
 		item.setContent(bytes);
 		
@@ -220,9 +227,10 @@ public class GopherItemBuilder  {
 		
 		item.setResourceDescriptor(resourceDescriptor);
 		item.setDisplayText(displayText);
+		item.setGopherPath(gopherPath);
+		item.setParentPath(parentPath);
 		item.setDomainName(domainName);
 		item.setPort(port);
-		item.setParentPath(parentPath);
 		item.setPersistOverRestart(persistent);
 		item.setContent(bytes);
 		
@@ -239,9 +247,10 @@ public class GopherItemBuilder  {
 		
 		item.setResourceDescriptor(resourceDescriptor);
 		item.setDisplayText(displayText);
+		item.setGopherPath(gopherPath);
+		item.setParentPath(parentPath);
 		item.setDomainName(domainName);
 		item.setPort(port);
-		item.setParentPath(parentPath);
 		item.setPersistOverRestart(persistent);
 		item.setContent(bytes);
 		
@@ -250,17 +259,17 @@ public class GopherItemBuilder  {
 	}
 	
 	public static GopherItem buildWithoutResourceDescriptor(String gopherPath, String resourcePath, String displayText, String domainName, int port, String parentPath, boolean persistOverRestart) {
-		GopherItem gi = new GopherItem();
+		GopherItem item = new GopherItem();
 		
-		gi.setGopherPath(gopherPath);
-		gi.setResourcePath(resourcePath);;
-		gi.setDisplayText(displayText);
-		gi.setDomainName(domainName);
-		gi.setPort(port);
-		gi.setParentPath(parentPath);
-		gi.setPersistOverRestart(persistOverRestart);
+		item.setDisplayText(displayText);
+		item.setGopherPath(gopherPath);
+		item.setResourcePath(resourcePath);;
+		item.setParentPath(parentPath);
+		item.setDomainName(domainName);
+		item.setPort(port);		
+		item.setPersistOverRestart(persistOverRestart);
 		
-		return gi;
+		return item;
 	}
 
 }

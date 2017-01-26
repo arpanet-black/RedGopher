@@ -185,7 +185,7 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
 		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;					
 		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
-		String gopherPath = resourcePath;
+		String gopherPath = resourcePath + PATH_SEP;
 		
 		return GopherItemBuilder.buildDirectory(displayText, currentGopherDir,itemDomain, itemPort, resourcePath, gopherPath, persistent);
 	}
@@ -198,8 +198,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 		
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s, Gophermap: %s ", el.getName(), displayText, gopherMap.toPath()));
+			return null;
+		}
+		
 		//Prepend current directory to resource path
-		resourcePath = new File(gopherMap.getPath() + PATH_SEP + resourcePath).toURI().toString();
+		resourcePath = getResourceUri(gopherMap, resourcePath);
 		
 		return GopherItemBuilder.buildTextFile(displayText, gopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
@@ -212,8 +217,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : currentGopherDir;					
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 		
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s, Gophermap: %s ", el.getName(), displayText, gopherMap.toPath()));
+			return null;
+		}
+		
 		//Prepend current directory to resource path
-		resourcePath = new File(gopherMap.getPath() + PATH_SEP + resourcePath).toURI().toString();
+		resourcePath = getResourceUri(gopherMap, resourcePath);
 				
 		return GopherItemBuilder.buildBinaryFile(displayText, gopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
@@ -227,8 +237,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 		String imageType = el.getChild(IMAGE_TYPE_ELEMENT_NAME) != null ? el.getChild(IMAGE_TYPE_ELEMENT_NAME).getValue() : DEFAULT_IMAGE_TYPE;
 		
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s, Gophermap: %s ", el.getName(), displayText, gopherMap.toPath()));
+			return null;
+		}
+		
 		//Prepend current directory to resource path
-		resourcePath = new File(gopherMap.getPath() + PATH_SEP + resourcePath).toURI().toString();
+		resourcePath = getResourceUri(gopherMap, resourcePath);
 		
 		return GopherItemBuilder.buildImage(displayText, gopherPath, resourcePath, parentPath, imageType, itemDomain, itemPort, persistent);
 	}
@@ -241,8 +256,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : currentGopherDir;					
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 		
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s, Gophermap: %s ", el.getName(), displayText, gopherMap.toPath()));
+			return null;
+		}
+		
 		//Prepend current directory to resource path
-		resourcePath = new File(gopherMap.getPath() + PATH_SEP + resourcePath).toURI().toString();
+		resourcePath = getResourceUri(gopherMap, resourcePath);
 		
 		return GopherItemBuilder.buildHtmlFile(displayText, gopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
@@ -255,8 +275,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : currentGopherDir;					
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 		
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s, Gophermap: %s ", el.getName(), displayText, gopherMap.toPath()));
+			return null;
+		}
+		
 		//Prepend current directory to resource path
-		resourcePath = new File(gopherMap.getPath() + PATH_SEP + resourcePath).toURI().toString();
+		resourcePath = getResourceUri(gopherMap, resourcePath);
 				
 		return null; //GopherItemBuilder.buildHtmlFile(displayText, gopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
@@ -276,6 +301,11 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 		String content = el.getChild(TEXT_CONTENT_ELEMENT_NAME) != null ? el.getChild(TEXT_CONTENT_ELEMENT_NAME).getValue() : "";
 		
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s, Gophermap: %s ", el.getName(), displayText, gopherMap.toPath()));
+			return null;
+		}
+		
 		return GopherItemBuilder.buildVirtualTextFile(displayText, gopherPath, parentPath, content, domainName, port, persistent);
 	}
 
@@ -284,6 +314,11 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String gopherPath = el.getChild(GOPHER_PATH_ELEMENT_NAME) != null ? el.getChild(GOPHER_PATH_ELEMENT_NAME).getValue() : null;				
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 		String base64Content = el.getChild(BASE64_ENCODED_CONTENT_ELEMENT_NAME) != null ? el.getChild(BASE64_ENCODED_CONTENT_ELEMENT_NAME).getValue() : "";
+		
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s, Gophermap: %s ", el.getName(), displayText, gopherMap.toPath()));
+			return null;
+		}
 		
 		byte[] bytes = null;
 		
@@ -302,6 +337,11 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 		String imageType = el.getChild(IMAGE_TYPE_ELEMENT_NAME) != null ? el.getChild(IMAGE_TYPE_ELEMENT_NAME).getValue() : DEFAULT_IMAGE_TYPE;
 				
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s, Gophermap: %s ", el.getName(), displayText, gopherMap.toPath()));
+			return null;
+		}
+		
 		byte[] bytes = null;
 		
 		if(el.getChild(BASE64_ENCODED_CONTENT_ELEMENT_NAME) != null ) {
@@ -327,6 +367,11 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String gopherPath = el.getChild(GOPHER_PATH_ELEMENT_NAME) != null ? el.getChild(GOPHER_PATH_ELEMENT_NAME).getValue() : null;	
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 				
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s, Gophermap: %s ", el.getName(), displayText, gopherMap.toPath()));
+			return null;
+		}
+		
 		byte[] bytes = null;
 		
 		if(el.getChild(BASE64_ENCODED_CONTENT_ELEMENT_NAME) != null ) {
@@ -343,5 +388,9 @@ public class GophermapContentBuilder implements ContentBuilder {
 		}
 
 		return GopherItemBuilder.buildVirtualHtmlFile(displayText, gopherPath, parentPath, bytes, itemDomain, itemPort, persistent);
+	}
+	
+	private String getResourceUri(File gopherMap, String resourcePath) {
+		return new File(gopherMap.getParent() + PATH_SEP + resourcePath).toURI().toString();
 	}
 }
