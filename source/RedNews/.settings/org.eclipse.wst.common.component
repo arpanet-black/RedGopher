@@ -2,6 +2,7 @@
     <wb-module deploy-name="RedNews">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/cfg"/>
         <property name="context-root" value="RedNews"/>
         <property name="java-output-path" value="/RedNews/build/classes"/>
     </wb-module>
