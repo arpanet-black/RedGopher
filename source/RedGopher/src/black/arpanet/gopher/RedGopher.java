@@ -65,6 +65,14 @@ public class RedGopher {
 
 		i(LOG,"RedGopher started.");
 		
+		while(adminServer.isAlive()) {
+			try{Thread.sleep(1000);}catch(Exception e){}
+		}
+		
+		tpe.shutdown();
+		
+		w(LOG,"RedGopher stopped.");
+		
 	}
 
 	private static void initThreadPool() {
