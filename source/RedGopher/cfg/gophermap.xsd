@@ -13,7 +13,8 @@
 			<xs:element name="binaryFile" type="gopher:binaryFile" />
 			<xs:element name="binaryArchive" type="gopher:binaryArchive" />
 			<xs:element name="image" type="gopher:image" />
-			<xs:element name="htmlFile" type="gopher:htmlFile" />			
+			<xs:element name="htmlFile" type="gopher:htmlFile" />	
+			<xs:element name="search" type="gopher:search" />		
 			<xs:element name="rss2Feed" type="gopher:rss2Feed" />
 			<xs:element name="virtualDirectory" type="gopher:virtualDirectory" />
 			<xs:element name="virtualTextFile" type="gopher:virtualTextFile" />
@@ -66,6 +67,13 @@
 	</xs:complexType>
 	
 	<xs:complexType name="htmlFile">
+		<xs:complexContent>
+			<xs:extension base="gopher:item">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="search">
 		<xs:complexContent>
 			<xs:extension base="gopher:item">
 			</xs:extension>
@@ -156,7 +164,7 @@
 	</xs:complexType>
 	
 	<!-- ENUMERATIONS -->
-	<!-- 
+	<!-- ALL GOPHER TYPES
 	<xs:simpleType name="gopherType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="TEXT_FILE" />
@@ -178,6 +186,22 @@
 			<xs:enumeration value="HTML" />
 			<xs:enumeration value="AUDIO" />
 			<xs:enumeration value="NONE" />
+		</xs:restriction>
+	</xs:simpleType>
+	 -->
+	 	 
+	 <!-- UNIMPLEMENTED GOPHER TYPES 
+	<xs:simpleType name="gopherType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CSO_SEARCH" />
+			<xs:enumeration value="ERROR" />				
+			<xs:enumeration value="BINHEX_ENCODED" />
+			<xs:enumeration value="UNIX_UUENCODED" />
+			<xs:enumeration value="INDEX_SEARCH_SERVER" />
+			<xs:enumeration value="TELNET" />
+			<xs:enumeration value="REDUNDANT_SERVER" />
+			<xs:enumeration value="TN3270_SESSION" />
+			<xs:enumeration value="AUDIO" />
 		</xs:restriction>
 	</xs:simpleType>
 	 -->

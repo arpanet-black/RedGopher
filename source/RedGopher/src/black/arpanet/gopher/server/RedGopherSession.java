@@ -102,6 +102,7 @@ public class RedGopherSession extends Thread {
 	}
 
 	//Load resource content
+	//TODO: Break this out into a "handler" interface and implementation
 	private byte[] getContentForRequest(String input) {
 
 		List<GopherItem> items = null;

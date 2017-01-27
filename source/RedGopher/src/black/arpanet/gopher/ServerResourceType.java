@@ -8,6 +8,7 @@ public enum ServerResourceType {
 	VIRTUAL_DIRECTORY,
 	REMOTE_FILE,
 	REMOTE_DIRECTORY,
+	SEARCH,
 	RSS2_FEED,
 	RSS2_ITEM;
 	

@@ -122,6 +122,16 @@ public class GopherItemBuilder  {
 		return item;
 		
 	}
+	
+	public static GopherItem buildSearch(String displayText, String gopherPath, String resourcePath, String parentPath, String domainName, int port, boolean persistent) {
+		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.INDEX_SEARCH_SERVER, ServerResourceType.SEARCH);
+		
+		GopherItem item = buildGopherItem(displayText, gopherPath, resourcePath, parentPath, domainName, port,
+				persistent, resourceDescriptor);
+		
+		return item;
+		
+	}
 
 	public static GopherItem buildRss2Feed() {
 		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.RSS2_FEED);

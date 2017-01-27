@@ -37,7 +37,8 @@ public class GophermapContentBuilder implements ContentBuilder {
 	private static final String BINARY_FILE_ELEMENT_NAME = "binaryFile";
 	private static final String BINARY_ARCHIVE_ELEMENT_NAME = "binaryArchive";
 	private static final String IMAGE_ELEMENT_NAME = "image";
-	private static final String HTML_FILE_ELEMENT_NAME = "htmlFile";	
+	private static final String HTML_FILE_ELEMENT_NAME = "htmlFile";
+	private static final String SEARCH_ELEMENT_NAME = "search";
 	private static final String RSS2FEED_ELEMENT_NAME = "rss2Feed";
 	private static final String V_DIRECTORY_ELEMENT_NAME = "virtualDirectory";
 	private static final String V_TEXT_FILE_ELEMENT_NAME = "virtualTextFile";
@@ -151,10 +152,12 @@ public class GophermapContentBuilder implements ContentBuilder {
 				item = fromBinaryFileElement(currentGopherDir, resourceParentPath, el, persistent, displayText, virtualGophermap);
 			} else if(el.getName().equals(BINARY_ARCHIVE_ELEMENT_NAME)) {
 				item = fromBinaryArchiveElement(currentGopherDir, resourceParentPath, el, persistent, displayText, virtualGophermap);
-			}else if(el.getName().equals(IMAGE_ELEMENT_NAME)) {
+			} else if(el.getName().equals(IMAGE_ELEMENT_NAME)) {
 				item = fromImageElement(currentGopherDir, resourceParentPath, el, persistent, displayText, virtualGophermap);
-			}  else if(el.getName().equals(HTML_FILE_ELEMENT_NAME)) {
+			} else if(el.getName().equals(HTML_FILE_ELEMENT_NAME)) {
 				item = fromHtmlFileElement(currentGopherDir, resourceParentPath, el, persistent, displayText, virtualGophermap);
+			} else if(el.getName().equals(SEARCH_ELEMENT_NAME)) {
+				item = fromSearchElement(currentGopherDir, resourceParentPath, el, persistent, displayText);
 			}  else if(el.getName().equals(RSS2FEED_ELEMENT_NAME)) {
 				item = fromRss2FeedElement(currentGopherDir, resourceParentPath, el, persistent, displayText);
 			}  else if(el.getName().equals(V_DIRECTORY_ELEMENT_NAME)) {
@@ -357,6 +360,24 @@ public class GophermapContentBuilder implements ContentBuilder {
 		}
 
 		return GopherItemBuilder.buildHtmlFile(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
+	}
+	
+	private GopherItem fromSearchElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {
+
+		String gopherPath = el.getChild(GOPHER_PATH_ELEMENT_NAME) != null ? el.getChild(GOPHER_PATH_ELEMENT_NAME).getValue() : null;		
+		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
+		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
+		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
+		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;
+
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s", el.getName(), displayText));
+			return null;
+		}
+
+		String virtualGopherPath = parentPath + gopherPath;
+
+		return GopherItemBuilder.buildSearch(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
 
 	private GopherItem fromRss2FeedElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {

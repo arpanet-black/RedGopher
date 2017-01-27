@@ -92,11 +92,14 @@ public class RedGopherDbHelper {
 			RedGopherDbManager.createServerFileType("zip", rd);
 			RedGopherDbManager.createServerFileType("7z", rd);
 			
+			//Search elements
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.INDEX_SEARCH_SERVER, ServerResourceType.SEARCH, "Gopher search.");
+			
 			//Information Text elements
 			RedGopherDbManager.createResourceDescriptor(GopherResourceType.INFORMATION_TEXT, ServerResourceType.VIRTUAL_FILE, "Information Text.");
 			
 			//Error message elements
-			RedGopherDbManager.createResourceDescriptor(GopherResourceType.ERROR, ServerResourceType.VIRTUAL_FILE, "Error message.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.ERROR, ServerResourceType.VIRTUAL_FILE, "Error message.");			
 			
 			//Resource for creating virtual directories
 			RedGopherDbManager.createResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.VIRTUAL_DIRECTORY, "RSS2 xml feed.");
