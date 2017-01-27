@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<Configuration status="INFO">
+
+		<Appenders>
+			<Console name="console" target="SYSTEM_OUT">
+				<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+			</Console>
+		</Appenders>
+
+		<Loggers>
+
+			<Logger name="black.arpanet" level="debug">
+				<AppenderRef ref="console" />
+			</Logger>
+			
+			<Logger name="org.apache" level="info">
+				<AppenderRef ref="console" />
+			</Logger>
+			
+			<Logger name="org.jdom2" level="info">
+				<AppenderRef ref="console" />
+			</Logger>
+
+			<Root level="debug">
+				<AppenderRef ref="console" />
+			</Root>
+
+		</Loggers>
+</Configuration>
