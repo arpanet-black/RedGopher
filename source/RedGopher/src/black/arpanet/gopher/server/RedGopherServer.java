@@ -1,5 +1,9 @@
 package black.arpanet.gopher.server;
 
+import static black.arpanet.util.logging.ArpanetLogUtil.e;
+import static black.arpanet.util.logging.ArpanetLogUtil.i;
+import static black.arpanet.util.logging.ArpanetLogUtil.w;
+
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -12,9 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
-import static black.arpanet.util.ArpanetLogUtil.i;
-import static black.arpanet.util.ArpanetLogUtil.w;
-import static black.arpanet.util.ArpanetLogUtil.e;
 
 public class RedGopherServer extends Thread {
 

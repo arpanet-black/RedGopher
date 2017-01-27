@@ -1,8 +1,8 @@
 package black.arpanet.gopher;
 
-import static black.arpanet.util.ArpanetLogUtil.d;
-import static black.arpanet.util.ArpanetLogUtil.e;
-import static black.arpanet.util.ArpanetLogUtil.w;
+import static black.arpanet.util.logging.ArpanetLogUtil.d;
+import static black.arpanet.util.logging.ArpanetLogUtil.e;
+import static black.arpanet.util.logging.ArpanetLogUtil.w;
 
 import java.io.IOException;
 import java.io.InputStream;

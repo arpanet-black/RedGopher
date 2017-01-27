@@ -1,4 +1,4 @@
-package black.arpanet.util;
+package black.arpanet.util.logging;
 
 import org.apache.logging.log4j.Logger;
 

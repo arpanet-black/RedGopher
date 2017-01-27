@@ -1,6 +1,6 @@
 package black.arpanet.gopher.feeds;
 
-import static black.arpanet.util.ArpanetLogUtil.e;
+import static black.arpanet.util.logging.ArpanetLogUtil.e;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

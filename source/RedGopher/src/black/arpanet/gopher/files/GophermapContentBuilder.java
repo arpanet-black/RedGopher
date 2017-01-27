@@ -1,10 +1,10 @@
 package black.arpanet.gopher.files;
 
-import static black.arpanet.util.ArpanetLogUtil.d;
-import static black.arpanet.util.ArpanetLogUtil.e;
-import static black.arpanet.util.ArpanetLogUtil.i;
-import static black.arpanet.util.ArpanetLogUtil.t;
-import static black.arpanet.util.ArpanetLogUtil.w;
+import static black.arpanet.util.logging.ArpanetLogUtil.d;
+import static black.arpanet.util.logging.ArpanetLogUtil.e;
+import static black.arpanet.util.logging.ArpanetLogUtil.i;
+import static black.arpanet.util.logging.ArpanetLogUtil.t;
+import static black.arpanet.util.logging.ArpanetLogUtil.w;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

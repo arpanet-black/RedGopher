@@ -1,6 +1,6 @@
 package black.arpanet.gopher.files;
 
-import static black.arpanet.util.ArpanetLogUtil.t;
+import static black.arpanet.util.logging.ArpanetLogUtil.t;
 
 import java.util.Properties;
 

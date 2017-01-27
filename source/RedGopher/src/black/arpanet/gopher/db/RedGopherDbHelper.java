@@ -1,7 +1,7 @@
 package black.arpanet.gopher.db;
 
-import static black.arpanet.util.ArpanetLogUtil.i;
-import static black.arpanet.util.ArpanetLogUtil.w;
+import static black.arpanet.util.logging.ArpanetLogUtil.i;
+import static black.arpanet.util.logging.ArpanetLogUtil.w;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

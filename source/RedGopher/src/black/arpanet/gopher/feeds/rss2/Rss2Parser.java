@@ -1,8 +1,8 @@
 package black.arpanet.gopher.feeds.rss2;
 
-import static black.arpanet.util.ArpanetLogUtil.dot;
-import static black.arpanet.util.ArpanetLogUtil.e;
-import static black.arpanet.util.ArpanetLogUtil.t;
+import static black.arpanet.util.logging.ArpanetLogUtil.dot;
+import static black.arpanet.util.logging.ArpanetLogUtil.e;
+import static black.arpanet.util.logging.ArpanetLogUtil.t;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package black.arpanet.gopher.server;
 
-import static black.arpanet.util.ArpanetLogUtil.t;
+import static black.arpanet.util.logging.ArpanetLogUtil.t;
 
 import java.io.BufferedReader;
 import java.io.IOException;
