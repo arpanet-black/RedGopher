@@ -1,9 +1,9 @@
 package black.arpanet.gopher.db;
 
-import static black.arpanet.gopher.util.RedGopherLogUtil.i;
-import static black.arpanet.gopher.util.RedGopherLogUtil.t;
-import static black.arpanet.gopher.util.RedGopherLogUtil.d;
-import static black.arpanet.gopher.util.RedGopherLogUtil.w;
+import static black.arpanet.util.ArpanetLogUtil.i;
+import static black.arpanet.util.ArpanetLogUtil.t;
+import static black.arpanet.util.ArpanetLogUtil.d;
+import static black.arpanet.util.ArpanetLogUtil.w;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import black.arpanet.gopher.GopherResourceType;
 import black.arpanet.gopher.ServerResourceType;

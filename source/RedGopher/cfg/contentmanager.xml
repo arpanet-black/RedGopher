@@ -7,5 +7,9 @@
   <manager>
   	<className>black.arpanet.gopher.feeds.rss2.Rss2ContentManager</className>
   </manager>
+  
+  <manager>
+  	<className>black.arpanet.gopher.publishing.BlogContentManager</className>
+  </manager>
    -->
 </gopherContent:contentManagers>

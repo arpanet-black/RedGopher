@@ -1,12 +1,12 @@
 package black.arpanet.gopher.files;
 
-import static black.arpanet.gopher.util.RedGopherLogUtil.d;
-import static black.arpanet.gopher.util.RedGopherLogUtil.i;
+import static black.arpanet.util.ArpanetLogUtil.d;
+import static black.arpanet.util.ArpanetLogUtil.i;
 
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import black.arpanet.gopher.ContentManager;
 

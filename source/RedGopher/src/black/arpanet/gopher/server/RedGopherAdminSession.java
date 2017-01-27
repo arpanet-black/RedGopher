@@ -1,6 +1,6 @@
 package black.arpanet.gopher.server;
 
-import static black.arpanet.gopher.util.RedGopherLogUtil.t;
+import static black.arpanet.util.ArpanetLogUtil.t;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 
 public class RedGopherAdminSession extends Thread {

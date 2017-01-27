@@ -1,13 +1,13 @@
-package black.arpanet.gopher.util;
+package black.arpanet.util;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 //Faster to check for enabled
 //logging levels than to let
 //the Log4J stack do it
 //Also, use import static
 //for cleaner logging
-public class RedGopherLogUtil {
+public class ArpanetLogUtil {
 
 	public static void t(Logger logger, String message) {
 		if(logger.isTraceEnabled()) {

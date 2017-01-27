@@ -1,14 +1,14 @@
 package black.arpanet.gopher.feeds.rss2;
 
-import static black.arpanet.gopher.util.RedGopherLogUtil.dot;
-import static black.arpanet.gopher.util.RedGopherLogUtil.e;
-import static black.arpanet.gopher.util.RedGopherLogUtil.t;
+import static black.arpanet.util.ArpanetLogUtil.dot;
+import static black.arpanet.util.ArpanetLogUtil.e;
+import static black.arpanet.util.ArpanetLogUtil.t;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;

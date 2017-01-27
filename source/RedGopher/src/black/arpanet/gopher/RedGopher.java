@@ -1,8 +1,8 @@
 package black.arpanet.gopher;
 
-import static black.arpanet.gopher.util.RedGopherLogUtil.i;
-import static black.arpanet.gopher.util.RedGopherLogUtil.w;
-import static black.arpanet.gopher.util.RedGopherLogUtil.e;
+import static black.arpanet.util.ArpanetLogUtil.i;
+import static black.arpanet.util.ArpanetLogUtil.w;
+import static black.arpanet.util.ArpanetLogUtil.e;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,8 +10,8 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 
 import black.arpanet.gopher.db.RedGopherDbHelper;

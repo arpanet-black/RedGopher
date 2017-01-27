@@ -1,11 +1,11 @@
 package black.arpanet.gopher.files;
 
-import static black.arpanet.gopher.util.RedGopherLogUtil.t;
+import static black.arpanet.util.ArpanetLogUtil.t;
 
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ContentBuilderFactory {
 

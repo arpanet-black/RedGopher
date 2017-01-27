@@ -1,5 +1,9 @@
 package black.arpanet.gopher.server;
 
+import static black.arpanet.util.ArpanetLogUtil.e;
+import static black.arpanet.util.ArpanetLogUtil.i;
+import static black.arpanet.util.ArpanetLogUtil.w;
+
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -8,14 +12,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
 
 import org.apache.bval.jsr303.util.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 
 import black.arpanet.gopher.db.RedGopherDbManager;
-import static black.arpanet.gopher.util.RedGopherLogUtil.i;
-import static black.arpanet.gopher.util.RedGopherLogUtil.w;
-import static black.arpanet.gopher.util.RedGopherLogUtil.e;
 
 public class RedGopherAdminServer extends Thread {
 	

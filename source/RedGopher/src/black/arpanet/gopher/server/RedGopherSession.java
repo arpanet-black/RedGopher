@@ -1,9 +1,9 @@
 package black.arpanet.gopher.server;
 
-import static black.arpanet.gopher.util.RedGopherLogUtil.d;
-import static black.arpanet.gopher.util.RedGopherLogUtil.e;
-import static black.arpanet.gopher.util.RedGopherLogUtil.t;
-import static black.arpanet.gopher.util.RedGopherLogUtil.w;
+import static black.arpanet.util.ArpanetLogUtil.d;
+import static black.arpanet.util.ArpanetLogUtil.e;
+import static black.arpanet.util.ArpanetLogUtil.t;
+import static black.arpanet.util.ArpanetLogUtil.w;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,8 +18,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import black.arpanet.gopher.GopherResourceType;
 import black.arpanet.gopher.ServerResourceType;
