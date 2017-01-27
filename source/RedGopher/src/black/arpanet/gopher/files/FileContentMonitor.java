@@ -3,29 +3,37 @@ package black.arpanet.gopher.files;
 import static black.arpanet.util.logging.ArpanetLogUtil.d;
 import static black.arpanet.util.logging.ArpanetLogUtil.i;
 
-import java.util.Properties;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import black.arpanet.gopher.ContentManager;
+import black.arpanet.gopher.ConfigurationReader;
+import black.arpanet.gopher.ContentMonitor;
 
-public class FileContentManager extends ContentManager {
+public class FileContentMonitor extends ContentMonitor {
 	
-	private static final String CONTENT_DIRECTORY_PROP = "content_directory";
-	private static final String DEFAULT_CONTENT_DIRECTORY = "c:\\gopher";
+	private static final String CONTENT_MODE_PROP = "MODE";
 	
-	private static final Logger LOG = LogManager.getLogger(FileContentManager.class);
+	private static final Logger LOG = LogManager.getLogger(FileContentMonitor.class);
 
 	private String contentDirectory;
 	private ContentBuilder contentBuilder;
 
 	@Override
-	public boolean init(Properties props) {
+	@SuppressWarnings("unchecked")	
+	public boolean init(Map<String,Object> config) {
 		d(LOG,"Initializing FileContentManager.");
 		
-		contentDirectory = props.getProperty(CONTENT_DIRECTORY_PROP, DEFAULT_CONTENT_DIRECTORY);
-		contentBuilder = ContentBuilderFactory.getContentBuilder(props);
+		contentDirectory = config.get(ConfigurationReader.CONTENT_DIR).toString();
+		
+		Object tempParams = config.get(FileContentMonitor.class.getName());
+		if(tempParams != null) {
+			Map<String,String> params = (Map<String,String>)config.get(FileContentMonitor.class.getName());
+			config.put(CONTENT_MODE_PROP, params.get(CONTENT_MODE_PROP));
+		}
+		
+		contentBuilder = ContentBuilderFactory.getContentBuilder(config);
 		
 		return true;
 	}

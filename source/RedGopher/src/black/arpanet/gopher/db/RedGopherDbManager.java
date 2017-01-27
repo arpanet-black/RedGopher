@@ -5,6 +5,7 @@ import static black.arpanet.util.logging.ArpanetLogUtil.i;
 import static black.arpanet.util.logging.ArpanetLogUtil.t;
 import static black.arpanet.util.logging.ArpanetLogUtil.w;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -77,7 +78,13 @@ public class RedGopherDbManager {
 
 		//Item commit order needs to be maintained
 		em.getTransaction().begin();
+		
+		if(gi.getCreationDate() == null) {
+			gi.setCreationDate(new Date());
+		}
+		
 		gi = em.merge(gi);
+		em.flush();
 		em.getTransaction().commit();
 
 		return gi;

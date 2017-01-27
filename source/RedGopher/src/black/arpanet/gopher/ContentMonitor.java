@@ -1,12 +1,13 @@
 package black.arpanet.gopher;
 
-import java.util.Properties;
+import java.util.Map;
 
-public abstract class ContentManager extends Thread {
+public abstract class ContentMonitor extends Thread {
 	
 	protected volatile boolean alive = true;
+	protected Map<String,String> params = null;
 
-	public abstract boolean init(Properties properties);
+	public abstract boolean init(Map<String,Object> config);
 	
 	public abstract boolean loadContent();
 	
@@ -25,7 +26,12 @@ public abstract class ContentManager extends Thread {
 		}
 		
 	}
-	
-	
+	public Map<String, String> getParams() {
+		return params;
+	}
+
+	public void setParams(Map<String, String> params) {
+		this.params = params;
+	}
 
 }

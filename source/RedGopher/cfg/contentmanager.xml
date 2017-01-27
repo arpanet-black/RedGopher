@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gopherContent:contentManagers xmlns:gopherContent="http://arpanet.black/gopher/content" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://arpanet.black/gopher/content contentmanager.xsd ">
   <manager>
-    <className>black.arpanet.gopher.files.FileContentManager</className>    
+    <className>black.arpanet.gopher.files.FileContentMonitor</className>    
   </manager>
-  <!-- 
-  <manager>
-  	<className>black.arpanet.gopher.feeds.rss2.Rss2ContentManager</className>
-  </manager>
-  
-  <manager>
-  	<className>black.arpanet.gopher.publishing.BlogContentManager</className>
-  </manager>
-   -->
 </gopherContent:contentManagers>

@@ -2,31 +2,37 @@ package black.arpanet.gopher.files;
 
 import static black.arpanet.util.logging.ArpanetLogUtil.t;
 
-import java.util.Properties;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import black.arpanet.gopher.ConfigurationReader;
+
 public class ContentBuilderFactory {
 
-	private static final String GOPHERMAP_PROP = "gophermap";
-	private static final String CONTENT_MODE_PROP = "content_mode";
+	private static final String CONTENT_MODE_PROP = "MODE";
 	private static final String DEFAULT_CONTENT_MODE = "GOPHERMAP";
-	private static final String DEFAULT_GOPHERMAP_NAME = "gophermap.xml";
-	private static final String DOMAIN_NAME_PROP = "domain_name";
-	private static final String GOPHER_PORT_PROP = "gopher_port";
 	
 	private static final Logger LOG = LogManager.getLogger(ContentBuilderFactory.class);
 
-	public static ContentBuilder getContentBuilder(Properties props) {		
+	public static ContentBuilder getContentBuilder(Map<String,Object> config) {		
 		
-		ContentMode contentMode = ContentMode.valueOf(props.getProperty(CONTENT_MODE_PROP,DEFAULT_CONTENT_MODE));
+		String configMode = config.get(CONTENT_MODE_PROP) != null ? config.get(CONTENT_MODE_PROP).toString() : null;
+		
+		ContentMode contentMode = null;
+		if(StringUtils.isBlank(configMode)) {
+			contentMode = ContentMode.valueOf(DEFAULT_CONTENT_MODE);
+		} else {
+			contentMode = ContentMode.valueOf(configMode);
+		}
 		
 		t(LOG, String.format("Content mode is: %s", contentMode.toString()));
 		
-		String gopherMapFileName = props.getProperty(GOPHERMAP_PROP, DEFAULT_GOPHERMAP_NAME);
-		String domainName = props.getProperty(DOMAIN_NAME_PROP);
-		int port = Integer.valueOf(props.getProperty(GOPHER_PORT_PROP));
+		String gopherMapFileName = config.get(ConfigurationReader.GOPHERMAP_FILE_NAME).toString();
+		String domainName = config.get(ConfigurationReader.DOMAIN_NAME).toString();
+		int port = (int)config.get(ConfigurationReader.PORT);
 		
 		ContentBuilder cb = null;
 		

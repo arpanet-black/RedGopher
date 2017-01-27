@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:serv="http://arpanet.black/gopher/serv" 
+	targetNamespace="http://arpanet.black/gopher/serv" >
+
+	
+	<!-- COMPLEX TYPES -->
+	
+	<xs:complexType name="gopherServer">
+		<xs:sequence>						
+			<xs:element name="settings" type="serv:serverSettings" minOccurs="1" maxOccurs="1" />
+			<xs:element name="content" type="serv:serverContent" minOccurs="1" maxOccurs="1" />		
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="serverSettings">
+		<xs:sequence>			
+			<xs:element name="domainName" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="port" type="xs:int" minOccurs="0" maxOccurs="1" />
+			<xs:element name="contentDirectory" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="gophermapFileName" type="xs:string" minOccurs="0" maxOccurs="1" />			
+			<xs:element name="intializeDb" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+			<xs:element name="coreThreadPoolSize" type="xs:int" minOccurs="0" maxOccurs="1" />
+			<xs:element name="maxThreadPoolSize" type="xs:int" minOccurs="0" maxOccurs="1" />
+			<xs:element name="threadPoolKeepAliveTimeMs" type="xs:long" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="serverContent">
+		<xs:sequence>			
+			<xs:element name="monitor" type="serv:contentMonitor" minOccurs="1" maxOccurs="unbounded" />		
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="contentMonitor">
+		<xs:sequence>			
+			<xs:element name="className" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="param" type="serv:param" minOccurs="0" maxOccurs="1" />		
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="param">
+		<xs:sequence>			
+			<xs:element name="key" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="1" />		
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- DOCUMENT ROOT ELEMENT -->
+	
+	<xs:element name="serv" type="serv:gopherServer"/>
+	
+</xs:schema>

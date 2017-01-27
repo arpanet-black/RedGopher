@@ -9,7 +9,7 @@
 
 		<Loggers>
 
-			<Logger name="black.arpanet" level="debug" />
+			<Logger name="black.arpanet" level="trace" />
 
 			<Logger name="org.apache" level="info" />
 			

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serv:serv xmlns:serv="http://arpanet.black/gopher/serv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://arpanet.black/gopher/serv gopherserv.xsd ">
+  <settings>
+    <domainName>localhost</domainName>
+    <contentDirectory>C:\\nick\\dev\\gopher</contentDirectory>
+    <intializeDb>true</intializeDb>
+  </settings>
+  <content>
+    <monitor>
+    	<className>black.arpanet.gopher.files.FileContentMonitor</className>
+    	<param>
+    		<key>MODE</key>
+    		<value>GOPHERMAP</value>
+    	</param>
+    </monitor>
+  </content>
+</serv:serv>
