@@ -68,7 +68,7 @@ public class GophermapContentBuilder implements ContentBuilder {
 	private String domainName;
 	private int port;
 	private File contentDirectory;
-	
+
 
 	public GophermapContentBuilder(String domainName, int port, String gopherMapFile) {
 		this.gopherMapFile = gopherMapFile;
@@ -193,19 +193,19 @@ public class GophermapContentBuilder implements ContentBuilder {
 
 		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
 		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;					
-		
+
 		if(el.getChild(RESOURCE_PATH_ELEMENT_NAME) == null) {
 			w(LOG, String.format("Directory will not be parsed since it did not contain a resourcePath element. Display Text: %s", displayText));
 			return null;
 		}
-		
+
 		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue(); 
 
 		String gopherPath = resourcePath;
 		if(!inVirtualDir) {
 			gopherPath = currentGopherDir + resourcePath;
 		}
- 
+
 		return GopherItemBuilder.buildDirectory(displayText, currentGopherDir,itemDomain, itemPort, resourcePath, gopherPath, persistent);
 	}
 
@@ -254,13 +254,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 		}
 
 		//Prepend current directory to resource path
-				if(!inVirtualDir) {
-					resourcePath = getResourceUri(resourceParentPath, resourcePath);
-				} else {
-					//If physical item is in a virtual directory then a full
-					//path to the item must be provided
-					resourcePath = getResourceUri(contentDirectory.getAbsolutePath(), resourcePath);
-				}
+		if(!inVirtualDir) {
+			resourcePath = getResourceUri(resourceParentPath, resourcePath);
+		} else {
+			//If physical item is in a virtual directory then a full
+			//path to the item must be provided
+			resourcePath = getResourceUri(contentDirectory.getAbsolutePath(), resourcePath);
+		}
 
 		return GopherItemBuilder.buildBinaryFile(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
@@ -315,7 +315,7 @@ public class GophermapContentBuilder implements ContentBuilder {
 		if(itemDomain.equals(domainName)) {
 			virtualGopherPath = parentPath + virtualGopherPath;
 		}
-		
+
 		//Prepend current directory to resource path
 		if(!inVirtualDir) {
 			resourcePath = getResourceUri(resourceParentPath, resourcePath);
@@ -348,13 +348,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 		}
 
 		//Prepend current directory to resource path
-				if(!inVirtualDir) {
-					resourcePath = getResourceUri(resourceParentPath, resourcePath);
-				} else {
-					//If physical item is in a virtual directory then a full
-					//path to the item must be provided
-					resourcePath = getResourceUri(contentDirectory.getAbsolutePath(), resourcePath);
-				}
+		if(!inVirtualDir) {
+			resourcePath = getResourceUri(resourceParentPath, resourcePath);
+		} else {
+			//If physical item is in a virtual directory then a full
+			//path to the item must be provided
+			resourcePath = getResourceUri(contentDirectory.getAbsolutePath(), resourcePath);
+		}
 
 		return GopherItemBuilder.buildHtmlFile(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
