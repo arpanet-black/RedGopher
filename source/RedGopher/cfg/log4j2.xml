@@ -9,17 +9,11 @@
 
 		<Loggers>
 
-			<Logger name="black.arpanet" level="debug">
-				<AppenderRef ref="console" />
-			</Logger>
+			<Logger name="black.arpanet" level="debug" />
+
+			<Logger name="org.apache" level="info" />
 			
-			<Logger name="org.apache" level="info">
-				<AppenderRef ref="console" />
-			</Logger>
-			
-			<Logger name="org.jdom2" level="info">
-				<AppenderRef ref="console" />
-			</Logger>
+			<Logger name="org.jdom2" level="info" />
 
 			<Root level="debug">
 				<AppenderRef ref="console" />
