@@ -32,6 +32,7 @@ public class RedGopherSession extends Thread {
 	private static final String NO_FILES_MESSAGE = "3No files available.\r\n.\r\n";
 	private static final int BUFFER_SIZE = 1024;
 	private static final Logger LOG = LogManager.getLogger(RedGopherSession.class);
+	private static final String PATH_SEP = "/";
 
 	protected Socket socket;
 
@@ -127,7 +128,7 @@ public class RedGopherSession extends Thread {
 			GopherResourceType gopherResType = GopherResourceType.fromOrdinal(item.getResourceDescriptor().getGopherResourceType());
 
 			if(gopherResType.equals(GopherResourceType.DIRECTORY)) {
-				items = RedGopherDbManager.findGopherItemsByParentPath(item.getGopherPath());
+				items = RedGopherDbManager.findGopherItemsByParentPath(item.getGopherPath() + PATH_SEP);
 			} else {
 
 				ServerResourceType serverResType = ServerResourceType.fromOrdinal(item.getResourceDescriptor().getServerResourceType()); 

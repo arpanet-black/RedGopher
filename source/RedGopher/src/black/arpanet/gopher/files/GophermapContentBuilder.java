@@ -67,6 +67,8 @@ public class GophermapContentBuilder implements ContentBuilder {
 	private String gopherMapFile;
 	private String domainName;
 	private int port;
+	private File contentDirectory;
+	
 
 	public GophermapContentBuilder(String domainName, int port, String gopherMapFile) {
 		this.gopherMapFile = gopherMapFile;
@@ -76,12 +78,12 @@ public class GophermapContentBuilder implements ContentBuilder {
 		gophermapFileNameFilter = new GophermapFileNameFilter(gopherMapFile);
 	}
 
-	public boolean initFromContentDirectory(String contentDirectoryPath) {
+	public synchronized boolean initFromContentDirectory(String contentDirectoryPath) {
 		i(LOG,"Initializing from Gophermap.");
 		i(LOG,String.format("Content directory is: %s", contentDirectoryPath));
 		i(LOG,String.format("Gophermap is: %s", gopherMapFile));
 
-		File contentDirectory = new File(contentDirectoryPath);
+		contentDirectory = new File(contentDirectoryPath);
 
 		if(!contentDirectory.exists()) {
 			i(LOG, String.format("Creating content directory: %s", contentDirectory.getAbsolutePath()));
@@ -119,13 +121,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 		try(ByteArrayInputStream bais = new ByteArrayInputStream(Files.readAllBytes(gopherMap.toPath()));) {
 			doc = builder.build(bais);
 			Element root = doc.getRootElement();
-			loadGophermapFromElement(root, currentGopherDir, gopherMap.getParent());
+			loadGophermapFromElement(root, currentGopherDir, gopherMap.getParent(), false);
 		} catch (IOException | JDOMException ex) {
 			e(LOG,String.format("Exception encountered parsing gophermap: ",gopherMap.getAbsolutePath()),ex);
 		}
 	}
 
-	private void loadGophermapFromElement(Element root, String currentGopherDir, String resourceParentPath) {
+	private void loadGophermapFromElement(Element root, String currentGopherDir, String resourceParentPath, boolean virtualGophermap) {
 
 		d(LOG, "Parsing gophermap XML element.");
 
@@ -142,17 +144,17 @@ public class GophermapContentBuilder implements ContentBuilder {
 			} else if(el.getName().equals(ERROR_ELEMENT_NAME)) {
 				item = fromErrorElement(currentGopherDir, el, persistent);
 			} else if(el.getName().equals(DIRECTORY_ELEMENT_NAME)) {					
-				item = fromDirectoryElement(currentGopherDir, el, persistent, displayText);
+				item = fromDirectoryElement(currentGopherDir, el, persistent, displayText, virtualGophermap);
 			} else if(el.getName().equals(TEXT_FILE_ELEMENT_NAME)) {					
-				item = fromTextFileElement(currentGopherDir, resourceParentPath, el, persistent, displayText);
+				item = fromTextFileElement(currentGopherDir, resourceParentPath, el, persistent, displayText, virtualGophermap);
 			} else if(el.getName().equals(BINARY_FILE_ELEMENT_NAME)) {
-				item = fromBinaryFileElement(currentGopherDir, resourceParentPath, el, persistent, displayText);
+				item = fromBinaryFileElement(currentGopherDir, resourceParentPath, el, persistent, displayText, virtualGophermap);
 			} else if(el.getName().equals(BINARY_ARCHIVE_ELEMENT_NAME)) {
-				item = fromBinaryArchiveElement(currentGopherDir, resourceParentPath, el, persistent, displayText);
+				item = fromBinaryArchiveElement(currentGopherDir, resourceParentPath, el, persistent, displayText, virtualGophermap);
 			}else if(el.getName().equals(IMAGE_ELEMENT_NAME)) {
-				item = fromImageElement(currentGopherDir, resourceParentPath, el, persistent, displayText);
+				item = fromImageElement(currentGopherDir, resourceParentPath, el, persistent, displayText, virtualGophermap);
 			}  else if(el.getName().equals(HTML_FILE_ELEMENT_NAME)) {
-				item = fromHtmlFileElement(currentGopherDir, resourceParentPath, el, persistent, displayText);
+				item = fromHtmlFileElement(currentGopherDir, resourceParentPath, el, persistent, displayText, virtualGophermap);
 			}  else if(el.getName().equals(RSS2FEED_ELEMENT_NAME)) {
 				item = fromRss2FeedElement(currentGopherDir, resourceParentPath, el, persistent, displayText);
 			}  else if(el.getName().equals(V_DIRECTORY_ELEMENT_NAME)) {
@@ -187,17 +189,27 @@ public class GophermapContentBuilder implements ContentBuilder {
 		return GopherItemBuilder.buildError(el.getValue(), currentGopherDir, persistent);
 	}
 
-	private GopherItem fromDirectoryElement(String currentGopherDir, Element el, boolean persistent, String displayText) {
+	private GopherItem fromDirectoryElement(String currentGopherDir, Element el, boolean persistent, String displayText, boolean inVirtualDir) {
 
 		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
 		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;					
-		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
-		String gopherPath = resourcePath + PATH_SEP;
+		
+		if(el.getChild(RESOURCE_PATH_ELEMENT_NAME) == null) {
+			w(LOG, String.format("Directory will not be parsed since it did not contain a resourcePath element. Display Text: %s", displayText));
+			return null;
+		}
+		
+		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue(); 
 
+		String gopherPath = resourcePath;
+		if(!inVirtualDir) {
+			gopherPath = currentGopherDir + resourcePath;
+		}
+ 
 		return GopherItemBuilder.buildDirectory(displayText, currentGopherDir,itemDomain, itemPort, resourcePath, gopherPath, persistent);
 	}
 
-	private GopherItem fromTextFileElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {
+	private GopherItem fromTextFileElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText, boolean inVirtualDir) {
 
 		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
 		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;
@@ -210,13 +222,19 @@ public class GophermapContentBuilder implements ContentBuilder {
 			return null;
 		}
 
+		//Keep a hierarchy on our own domain
+		String virtualGopherPath = gopherPath;
+		if(itemDomain.equals(domainName)) {
+			virtualGopherPath = parentPath + virtualGopherPath;
+		}
+
 		//Prepend current directory to resource path
 		resourcePath = getResourceUri(resourceParentPath, resourcePath);
 
-		return GopherItemBuilder.buildTextFile(displayText, gopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
+		return GopherItemBuilder.buildTextFile(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
 
-	private GopherItem fromBinaryFileElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {
+	private GopherItem fromBinaryFileElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText, boolean inVirtualDir) {
 
 		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
 		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;
@@ -229,13 +247,25 @@ public class GophermapContentBuilder implements ContentBuilder {
 			return null;
 		}
 
-		//Prepend current directory to resource path
-		resourcePath = getResourceUri(resourceParentPath, resourcePath);
+		//Keep a hierarchy on our own domain
+		String virtualGopherPath = gopherPath;
+		if(itemDomain.equals(domainName)) {
+			virtualGopherPath = parentPath + virtualGopherPath;
+		}
 
-		return GopherItemBuilder.buildBinaryFile(displayText, gopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
+		//Prepend current directory to resource path
+				if(!inVirtualDir) {
+					resourcePath = getResourceUri(resourceParentPath, resourcePath);
+				} else {
+					//If physical item is in a virtual directory then a full
+					//path to the item must be provided
+					resourcePath = getResourceUri(contentDirectory.getAbsolutePath(), resourcePath);
+				}
+
+		return GopherItemBuilder.buildBinaryFile(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
 
-	private GopherItem fromBinaryArchiveElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {
+	private GopherItem fromBinaryArchiveElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText, boolean inVirtualDir) {
 
 		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
 		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;
@@ -248,13 +278,25 @@ public class GophermapContentBuilder implements ContentBuilder {
 			return null;
 		}
 
-		//Prepend current directory to resource path
-		resourcePath = getResourceUri(resourceParentPath, resourcePath);
+		//Keep a hierarchy on our own domain
+		String virtualGopherPath = gopherPath;
+		if(itemDomain.equals(domainName)) {
+			virtualGopherPath = parentPath + virtualGopherPath;
+		}
 
-		return GopherItemBuilder.buildBinaryArchive(displayText, gopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
+		//Prepend current directory to resource path
+		if(!inVirtualDir) {
+			resourcePath = getResourceUri(resourceParentPath, resourcePath);
+		} else {
+			//If physical item is in a virtual directory then a full
+			//path to the item must be provided
+			resourcePath = getResourceUri(contentDirectory.getAbsolutePath(), resourcePath);
+		}
+
+		return GopherItemBuilder.buildBinaryArchive(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
 
-	private GopherItem fromImageElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {
+	private GopherItem fromImageElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText, boolean inVirtualDir) {
 
 		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
 		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;
@@ -268,13 +310,25 @@ public class GophermapContentBuilder implements ContentBuilder {
 			return null;
 		}
 
+		//Keep a hierarchy on our own domain
+		String virtualGopherPath = gopherPath;
+		if(itemDomain.equals(domainName)) {
+			virtualGopherPath = parentPath + virtualGopherPath;
+		}
+		
 		//Prepend current directory to resource path
-		resourcePath = getResourceUri(resourceParentPath, resourcePath);
+		if(!inVirtualDir) {
+			resourcePath = getResourceUri(resourceParentPath, resourcePath);
+		} else {
+			//If physical item is in a virtual directory then a full
+			//path to the item must be provided
+			resourcePath = getResourceUri(contentDirectory.getAbsolutePath(), resourcePath);
+		}
 
-		return GopherItemBuilder.buildImage(displayText, gopherPath, resourcePath, parentPath, imageType, itemDomain, itemPort, persistent);
+		return GopherItemBuilder.buildImage(displayText, virtualGopherPath, resourcePath, parentPath, imageType, itemDomain, itemPort, persistent);
 	}
 
-	private GopherItem fromHtmlFileElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {
+	private GopherItem fromHtmlFileElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText, boolean inVirtualDir) {
 
 		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
 		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;
@@ -287,10 +341,22 @@ public class GophermapContentBuilder implements ContentBuilder {
 			return null;
 		}
 
-		//Prepend current directory to resource path
-		resourcePath = getResourceUri(resourceParentPath, resourcePath);
+		//Keep a hierarchy on our own domain
+		String virtualGopherPath = gopherPath;
+		if(itemDomain.equals(domainName)) {
+			virtualGopherPath = parentPath + virtualGopherPath;
+		}
 
-		return GopherItemBuilder.buildHtmlFile(displayText, gopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
+		//Prepend current directory to resource path
+				if(!inVirtualDir) {
+					resourcePath = getResourceUri(resourceParentPath, resourcePath);
+				} else {
+					//If physical item is in a virtual directory then a full
+					//path to the item must be provided
+					resourcePath = getResourceUri(contentDirectory.getAbsolutePath(), resourcePath);
+				}
+
+		return GopherItemBuilder.buildHtmlFile(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
 
 	private GopherItem fromRss2FeedElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {
@@ -306,19 +372,36 @@ public class GophermapContentBuilder implements ContentBuilder {
 			return null;
 		}
 
+		String virtualGopherPath = parentPath + gopherPath;
+
 		//Prepend current directory to resource path
 		resourcePath = getResourceUri(resourceParentPath, resourcePath);
 
-		return null; //GopherItemBuilder.buildHtmlFile(displayText, gopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
+		return null; //GopherItemBuilder.buildHtmlFile(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
 
 	private GopherItem fromVirtualDirectoryElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {
-		GopherItem item = null;
-		//		String displayText = el.getChild(DISPLAY_TEXT_ELEMENT_NAME).getValue();
-		//		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
-		//		String gopherPath = resourcePath;
-		//		item = GopherItemBuilder.buildVirtualDirectory(displayText, currentGopherDir, resourcePath, gopherPath, domainName, port, persistent);
-		return item;
+
+		Element gophermap = el.getChild(GOPHERMAP_ELEMENT_NAME);
+
+		if(gophermap == null) {
+			w(LOG, String.format("Could not find gophermap for virtual directory.\n"
+					+ "Virtual Direcotry Display Text: %s, Current Gopher Dir: %s, Resource Parent Path: %s", displayText, currentGopherDir, resourceParentPath));
+			return null;
+		}
+
+		String gopherPath = el.getChild(GOPHER_PATH_ELEMENT_NAME) != null ? el.getChild(GOPHER_PATH_ELEMENT_NAME).getValue() : null;
+
+		if(StringUtils.isBlank(gopherPath)) {
+			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s", el.getName(), displayText));
+			return null;
+		}
+
+		String virtualGopherDir = gopherPath + PATH_SEP;
+
+		loadGophermapFromElement(gophermap, virtualGopherDir, virtualGopherDir, true);
+
+		return fromDirectoryElement(currentGopherDir, el, persistent, displayText, true);
 	}
 
 	private GopherItem fromVirtualTextFileElement(String currentGopherDir, Element el, boolean persistent, String displayText) {
@@ -332,7 +415,9 @@ public class GophermapContentBuilder implements ContentBuilder {
 			return null;
 		}
 
-		return GopherItemBuilder.buildVirtualTextFile(displayText, gopherPath, parentPath, content, domainName, port, persistent);
+		String virtualGopherPath = parentPath + gopherPath;
+
+		return GopherItemBuilder.buildVirtualTextFile(displayText, virtualGopherPath, parentPath, content, domainName, port, persistent);
 	}
 
 	private GopherItem fromVirtualBinaryFileElement(String currentGopherDir, Element el, boolean persistent, String displayText) {
@@ -352,7 +437,9 @@ public class GophermapContentBuilder implements ContentBuilder {
 			bytes = org.apache.commons.codec.binary.Base64.decodeBase64(base64Content);
 		}
 
-		return GopherItemBuilder.buildVirtualBinaryFile(displayText, gopherPath, parentPath, bytes, domainName, port, persistent);
+		String virtualGopherPath = parentPath + gopherPath;
+
+		return GopherItemBuilder.buildVirtualBinaryFile(displayText, virtualGopherPath, parentPath, bytes, domainName, port, persistent);
 	}
 
 	private GopherItem fromVirtualBinaryArchiveElement(String currentGopherDir, Element el, boolean persistent, String displayText) {
@@ -372,7 +459,9 @@ public class GophermapContentBuilder implements ContentBuilder {
 			bytes = org.apache.commons.codec.binary.Base64.decodeBase64(base64Content);
 		}
 
-		return GopherItemBuilder.buildVirtualBinaryFile(displayText, gopherPath, parentPath, bytes, domainName, port, persistent);
+		String virtualGopherPath = parentPath + gopherPath;
+
+		return GopherItemBuilder.buildVirtualBinaryFile(displayText, virtualGopherPath, parentPath, bytes, domainName, port, persistent);
 	}
 
 	private GopherItem fromVirtualImageElement(String currentGopherDir, Element el, boolean persistent, String displayText) {
@@ -403,7 +492,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 			}
 		}
 
-		return GopherItemBuilder.buildVirtualImage(displayText, gopherPath, parentPath, imageType, bytes, itemDomain, itemPort, persistent);
+		//Keep a hierarchy on our own domain
+		String virtualGopherPath = gopherPath;
+		if(itemDomain.equals(domainName)) {
+			virtualGopherPath = parentPath + virtualGopherPath;
+		}
+
+		return GopherItemBuilder.buildVirtualImage(displayText, virtualGopherPath, parentPath, imageType, bytes, itemDomain, itemPort, persistent);
 	}
 
 	private GopherItem fromVirtualHtmlFileElement(String currentGopherDir, Element el, boolean persistent, String displayText) {
@@ -433,7 +528,13 @@ public class GophermapContentBuilder implements ContentBuilder {
 			}
 		}
 
-		return GopherItemBuilder.buildVirtualHtmlFile(displayText, gopherPath, parentPath, bytes, itemDomain, itemPort, persistent);
+		//Keep a hierarchy on our own domain
+		String virtualGopherPath = gopherPath;
+		if(itemDomain.equals(domainName)) {
+			virtualGopherPath = parentPath + virtualGopherPath;
+		}
+
+		return GopherItemBuilder.buildVirtualHtmlFile(displayText, virtualGopherPath, parentPath, bytes, itemDomain, itemPort, persistent);
 	}
 
 	private String getResourceUri(String parentPath, String resourcePath) {
