@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
@@ -44,63 +45,93 @@ public class RedGopherDbManager {
 		t(LOG,"Out createResourceDescriptor(GopherResourceType,ServerResourceType,String).");
 		return rd;
 	}
-	
+
 	public static ServerFileType createServerFileType(String fileExtension, ResourceDescriptor resourceDescriptor) {
 		t(LOG,"In createServerFileType(String,ResourceDescriptor).");
 		ServerFileType sft = new ServerFileType();
 		sft.setFileExtension(fileExtension);
 		sft.setResourceDescriptor(resourceDescriptor);
 		sft = em.merge(sft);
-		
+
 		t(LOG,"Out createServerFileType(String,ResourceDescriptor).");
 		return sft;
 	}
 
 	public static void deleteAllResourceDescriptors() {
 		i(LOG,"Deleting all resource descriptors.");
-		em.getTransaction().begin();
-		em.createNamedQuery("ResourceDescriptor.deleteAll").executeUpdate();
-		em.getTransaction().commit();
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();
+			em.createNamedQuery("ResourceDescriptor.deleteAll").executeUpdate();
+			et.commit();
+		} catch(Exception ex) {			
+			et.rollback();
+			w(LOG, "Exception encountered deleting all resource descriptors.",ex);
+		}
 	}
-	
+
 	public static void deleteAllServerFileTypes() {
 		i(LOG,"Deleting all server file types.");
-		em.getTransaction().begin();
-		em.createNamedQuery("ServerFileType.deleteAll").executeUpdate();
-		em.getTransaction().commit();
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();
+			em.createNamedQuery("ServerFileType.deleteAll").executeUpdate();
+			et.commit();
+		} catch(Exception ex) {			
+			et.rollback();
+			w(LOG, "Exception encountered deleting all server file types.",ex);
+		}
 	}
 
 	public static void deleteVolatileItems() {
 		i(LOG,"Deleting all volatile GopherItems.");
-		em.getTransaction().begin();
-		em.createNamedQuery("GopherItem.deleteVolatileItems").executeUpdate();
-		em.getTransaction().commit();
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();
+			em.createNamedQuery("GopherItem.deleteVolatileItems").executeUpdate();
+			et.commit();
+		} catch(Exception ex) {			
+			et.rollback();
+			w(LOG, "Exception encountered deleting all volatile gopher items.",ex);
+		}
 	}
-	
+
 	public static void deleteByParentPath(String parentPath) {
 		i(LOG,String.format("Deleting all items under parent path: %s", parentPath));
-		em.getTransaction().begin();
-		Query deleteQuery = em.createNamedQuery("GopherItem.deleteByParentPath");
-		deleteQuery.setParameter("path", parentPath);
-		deleteQuery.executeUpdate();
-		em.getTransaction().commit();
-		
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();;
+			Query deleteQuery = em.createNamedQuery("GopherItem.deleteByParentPath");
+			deleteQuery.setParameter("path", parentPath);
+			deleteQuery.executeUpdate();
+			et.commit();
+		} catch(Exception ex) {			
+			et.rollback();
+			w(LOG, String.format("Exception encountered deleting items by parent path: %s",parentPath),ex);
+		}
+
 	}
-	
+
 	public static GopherItem mergeGopherItem(GopherItem gi) {
 
-		//Item commit order needs to be maintained
-		em.getTransaction().begin();
-		
-		if(gi.getCreationDate() == null) {
-			gi.setCreationDate(new Date());
+		EntityTransaction et = em.getTransaction();
+		try {
+			//Item commit order needs to be maintained
+			et.begin();
+
+			if(gi.getCreationDate() == null) {
+				gi.setCreationDate(new Date());
+			}
+
+			gi.setUpdateDate(new Date());
+
+			gi = em.merge(gi);
+			em.flush();
+			et.commit();
+		} catch(Exception ex) {			
+			et.rollback();
+			w(LOG, String.format("Exception encountered merging gopher item. ID # %s: %s",gi.getId(), gi.getDisplayText()),ex);
 		}
-		
-		gi.setUpdateDate(new Date());
-		
-		gi = em.merge(gi);
-		em.flush();
-		em.getTransaction().commit();
 
 		return gi;
 	}
@@ -116,7 +147,7 @@ public class RedGopherDbManager {
 
 		return rd;
 	}
-	
+
 	public static ServerFileType findServerFileTypeByExt(String extension) {
 
 		TypedQuery<ServerFileType> q = em.createNamedQuery("ServerFileType.findByFileExtension", ServerFileType.class);
@@ -170,7 +201,7 @@ public class RedGopherDbManager {
 
 		return gopherItems;
 	}
-	
+
 	public static List<GopherItem> findGopherItemsByParentPath(String parentPath) {
 
 		TypedQuery<GopherItem> q = em.createNamedQuery("GopherItem.findByParentPath", GopherItem.class);
@@ -195,14 +226,14 @@ public class RedGopherDbManager {
 
 		return gopherItems;
 	}
-	
+
 	public static GopherItem findSingleItemByGopherPath(String gopherPath) {
 
 		TypedQuery<GopherItem> q = em.createNamedQuery("GopherItem.findByGopherPath", GopherItem.class);
 		q.setParameter("path", gopherPath);
 
 		GopherItem gopherItem = null;
-		
+
 		try {
 			gopherItem = q.getSingleResult();
 		} catch(NoResultException ex) {
@@ -216,16 +247,28 @@ public class RedGopherDbManager {
 
 	public static void checkpointDb() {
 		i(LOG,"Database checkpoint initiated.");
-		em.getTransaction().begin();
-		em.createNativeQuery("CHECKPOINT").executeUpdate();
-		em.getTransaction().commit();
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();
+			em.createNativeQuery("CHECKPOINT").executeUpdate();
+			et.commit();
+		} catch(Exception ex) {			
+			et.rollback();
+			w(LOG,"Exception encountered executing database checkpoint.",ex);
+		}
 	}
 
 	public static void shutdownDb() {
 		w(LOG,"Database shutdown initiated!");
-		em.getTransaction().begin();
-		em.createNativeQuery("SHUTDOWN").executeUpdate();
-		em.getTransaction().commit();
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();
+			em.createNativeQuery("SHUTDOWN").executeUpdate();
+			et.commit();
+		} catch(Exception ex) {			
+			et.rollback();
+			w(LOG, String.format("Exception encountered executing database shutdown."),ex);
+		}
 	}
 
 }

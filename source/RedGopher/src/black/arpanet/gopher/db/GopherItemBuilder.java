@@ -242,7 +242,7 @@ public class GopherItemBuilder  {
 	}
 	
 	public static GopherItem buildRss2Item(String displayText, String gopherPath, String parentPath, byte[] bytes, String domainName, int port, boolean persistent) {
-		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.HTML, ServerResourceType.RSS2_ITEM);
+		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.TEXT_FILE, ServerResourceType.RSS2_ITEM);
 		
 		GopherItem item = buildVirtualGopherItem(displayText, gopherPath, parentPath, bytes, domainName, port, persistent,
 				resourceDescriptor);

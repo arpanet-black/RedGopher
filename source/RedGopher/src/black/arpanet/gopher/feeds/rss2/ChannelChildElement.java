@@ -20,6 +20,10 @@ public enum ChannelChildElement {
 	CLOUD,
 	TEXTINPUT,
 	SKIPHOURS,
-	SKIPDAYS;
+	SKIPDAYS,
+	
+	//Extra elements - Feedburner?
+	INFO,
+	FEEDFLARE;
 	
 }

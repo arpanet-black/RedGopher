@@ -10,9 +10,9 @@ import black.arpanet.gopher.GopherResourceType;
 import black.arpanet.gopher.ServerResourceType;
 import black.arpanet.gopher.db.entities.ResourceDescriptor;
 
-public class RedGopherDbHelper {
+public class RedGopherDbInit {
 
-	private static final Logger LOG = LogManager.getLogger(RedGopherDbHelper.class);
+	private static final Logger LOG = LogManager.getLogger(RedGopherDbInit.class);
 	
 	public static void init() {
 		RedGopherDbManager.deleteVolatileItems();
@@ -117,6 +117,7 @@ public class RedGopherDbHelper {
 			RedGopherDbManager.createResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.RSS2_LINK, "Link to RSS2 xml feed.");
 			RedGopherDbManager.createResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.RSS2_FEED, "RSS2 xml feed.");
 			RedGopherDbManager.createResourceDescriptor(GopherResourceType.HTML, ServerResourceType.RSS2_ITEM, "RSS2 content item.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.TEXT_FILE, ServerResourceType.RSS2_ITEM, "RSS2 content item.");
 
 			RedGopherDbManager.checkpointDb();
 

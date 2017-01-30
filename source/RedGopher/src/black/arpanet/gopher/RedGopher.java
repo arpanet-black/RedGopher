@@ -14,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 
-import black.arpanet.gopher.db.RedGopherDbHelper;
+import black.arpanet.gopher.db.RedGopherDbInit;
 import black.arpanet.gopher.server.RedGopherAdminServer;
 import black.arpanet.gopher.server.RedGopherServer;
 import black.arpanet.gopher.server.RedGopherServerProperties;
@@ -106,14 +106,14 @@ public class RedGopher {
 
 	private static void initDatabase() {		
 
-		RedGopherDbHelper.init();
+		RedGopherDbInit.init();
 
 		//Load up the resource tables with initial values
 		boolean initDbData = (boolean)config.get(ConfigurationReader.INIT_DB);
 
 		if(initDbData) {
 			i(LOG,"Initializing database tables...");
-			if(RedGopherDbHelper.initDbTables()) {
+			if(RedGopherDbInit.initDbTables()) {
 				i(LOG,"Tables initialized.");
 			} else {
 				w(LOG,"Table initialization failed!");

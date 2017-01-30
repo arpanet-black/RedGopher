@@ -4,5 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/log4j/log4j-core-2.7.jar"/>
 	<classpathentry kind="lib" path="lib/log4j/log4j-api-2.7.jar"/>
+	<classpathentry kind="lib" path="lib/apache-commons/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="lib/apache-commons/commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/apache-commons/commons-lang3-3.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

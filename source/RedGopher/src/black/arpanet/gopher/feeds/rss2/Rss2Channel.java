@@ -29,6 +29,7 @@ public class Rss2Channel {
 	private String docs;	
 	private String ttl;
 	private Rss2Image image;
+	private String info;
 	
 	//Ignored Elements
 //	private String cloud;
@@ -158,7 +159,14 @@ public class Rss2Channel {
 
 	public void setImage(Rss2Image image) {
 		this.image = image;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}	
-	
 	
 }

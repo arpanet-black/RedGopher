@@ -31,7 +31,7 @@ public class GopherItem {
 	@GeneratedValue
 	private int id;
 	
-	@Column(name="display_text")
+	@Column(name="display_text", length=1024)
 	private String displayText;
 	
 	@Column(name="parent_path")

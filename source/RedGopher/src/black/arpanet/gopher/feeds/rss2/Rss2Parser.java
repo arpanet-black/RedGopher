@@ -6,6 +6,7 @@ import static black.arpanet.util.logging.ArpanetLogUtil.t;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +31,8 @@ public class Rss2Parser {
 			dot(LOG, String.format("Parsing XML: %s", data), "Parsing XML.");
 			
 			ByteArrayInputStream dataInput = new ByteArrayInputStream(data.getBytes());
-			Document doc = builder.build(dataInput);
+			InputStreamReader utfInStream = new InputStreamReader(dataInput, "UTF-8");
+			Document doc = builder.build(utfInStream);
 			Element root = doc.getRootElement();
 			Element channelElement = root.getChild(CHANNEL_ELEMENT_NAME);
 			

@@ -13,7 +13,9 @@
 
 			<Logger name="org.apache" level="info" />
 			
-			<Logger name="org.jdom2" level="info" />
+			<Logger name="org.jdom2" level="trace" />
+			
+			<Logger name="com.sun.org.apache.xerces" level="trace" />
 
 			<Root level="debug">
 				<AppenderRef ref="console" />

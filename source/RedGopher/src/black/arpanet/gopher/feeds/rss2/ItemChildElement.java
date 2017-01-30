@@ -13,6 +13,9 @@ public enum ItemChildElement {
 	PUBDATE,
 	SOURCE,
 	ENCODED,
-	CREATOR;
+	CREATOR,
+	
+	//Extra elements - Feedburner?
+	ORIGLINK;
 
 }
