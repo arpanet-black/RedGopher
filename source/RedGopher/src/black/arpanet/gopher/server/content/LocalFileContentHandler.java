@@ -20,7 +20,7 @@ public class LocalFileContentHandler implements ContentHandler {
 	private static final Logger LOG = LogManager.getLogger(LocalFileContentHandler.class);
 
 	@Override
-	public byte[] getContent(GopherItem item) {
+	public byte[] getContent(GopherItem item, String input) {
 		byte[] bytes = null;
 
 		try {

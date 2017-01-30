@@ -20,12 +20,12 @@ import black.arpanet.gopher.util.GopherFileUtil;
 
 public class DirectoryContentBuilder implements ContentBuilder {
 	
-	private static final String PATH_SEP = "/";
+	protected static final String PATH_SEP = "/";
 	
-	private static final Logger LOG = LogManager.getLogger(DirectoryContentBuilder.class);
+	protected static final Logger LOG = LogManager.getLogger(DirectoryContentBuilder.class);
 	
-	private String domainName;
-	private int port;
+	protected String domainName;
+	protected int port;
 	
 	public DirectoryContentBuilder(String domainName, int port) {
 		this.domainName = domainName;
@@ -64,7 +64,7 @@ public class DirectoryContentBuilder implements ContentBuilder {
 	}
 	
 
-	private void loadContent(File contentFile, GopherItem parent) {
+	protected void loadContent(File contentFile, GopherItem parent) {
 
 		if(contentFile == null) return;
 
@@ -103,7 +103,7 @@ public class DirectoryContentBuilder implements ContentBuilder {
 
 	}
 	
-	private static ResourceDescriptor getDescriptorForFileType(File contentFile) {
+	protected static ResourceDescriptor getDescriptorForFileType(File contentFile) {
 		ResourceDescriptor rd = null;
 
 		String extension = FilenameUtils.getExtension(contentFile.getName());

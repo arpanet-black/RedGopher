@@ -12,7 +12,7 @@ public class DirectoryContentHandler implements ContentHandler {
 	private static final String PATH_SEP = "/";
 
 	@Override
-	public byte[] getContent(GopherItem item) {
+	public byte[] getContent(GopherItem item, String input) {
 		List<GopherItem> items = RedGopherDbManager.findGopherItemsByParentPath(item.getGopherPath() + PATH_SEP);
 		return buildMenu(items).getBytes();
 	}

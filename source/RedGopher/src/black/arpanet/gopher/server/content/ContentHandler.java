@@ -4,5 +4,5 @@ import black.arpanet.gopher.db.entities.GopherItem;
 
 public interface ContentHandler {
 
-	public byte[] getContent(GopherItem item);
+	public byte[] getContent(GopherItem item, String input);
 }

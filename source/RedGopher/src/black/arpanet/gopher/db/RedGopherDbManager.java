@@ -45,19 +45,6 @@ public class RedGopherDbManager {
 		return rd;
 	}
 	
-	public static void logAllItems() {
-		Query q = em.createNativeQuery("select * from public.gopher_item", GopherItem.class);
-		List<GopherItem> results = q.getResultList();
-		
-		if(results.size() < 1) {
-			w(LOG,"NO GOPHER ITEMS FOUND!!!");
-		}
-		
-		for(GopherItem gi : results) {
-			w(LOG, String.format("GOPHER ITEM: %s / %s / %s", gi.getDisplayText(), gi.getGopherPath(), gi.getParentPath()));
-		}
-	}
-	
 	public static ServerFileType createServerFileType(String fileExtension, ResourceDescriptor resourceDescriptor) {
 		t(LOG,"In createServerFileType(String,ResourceDescriptor).");
 		ServerFileType sft = new ServerFileType();
@@ -90,6 +77,16 @@ public class RedGopherDbManager {
 		em.getTransaction().commit();
 	}
 	
+	public static void deleteByParentPath(String parentPath) {
+		i(LOG,String.format("Deleting all items under parent path: %s", parentPath));
+		em.getTransaction().begin();
+		Query deleteQuery = em.createNamedQuery("GopherItem.deleteByParentPath");
+		deleteQuery.setParameter("path", parentPath);
+		deleteQuery.executeUpdate();
+		em.getTransaction().commit();
+		
+	}
+	
 	public static GopherItem mergeGopherItem(GopherItem gi) {
 
 		//Item commit order needs to be maintained
@@ -98,6 +95,8 @@ public class RedGopherDbManager {
 		if(gi.getCreationDate() == null) {
 			gi.setCreationDate(new Date());
 		}
+		
+		gi.setUpdateDate(new Date());
 		
 		gi = em.merge(gi);
 		em.flush();

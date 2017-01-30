@@ -114,8 +114,9 @@ public class RedGopherDbHelper {
 			RedGopherDbManager.createResourceDescriptor(GopherResourceType.PNG_IMAGE_FILE, ServerResourceType.VIRTUAL_FILE, "Virtual PNG file.");
 
 			//Resources for RSS2 Feeds
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.RSS2_LINK, "Link to RSS2 xml feed.");
 			RedGopherDbManager.createResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.RSS2_FEED, "RSS2 xml feed.");
-			RedGopherDbManager.createResourceDescriptor(GopherResourceType.TEXT_FILE, ServerResourceType.RSS2_ITEM, "RSS2 content item.");
+			RedGopherDbManager.createResourceDescriptor(GopherResourceType.HTML, ServerResourceType.RSS2_ITEM, "RSS2 content item.");
 
 			RedGopherDbManager.checkpointDb();
 

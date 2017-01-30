@@ -19,7 +19,9 @@ import javax.persistence.Table;
 	@NamedQuery(name="GopherItem.findTopLevelItems", query="select gi from GopherItem gi where gi.parentPath = '/' order by gi.creationDate ASC"),
 	@NamedQuery(name="GopherItem.findByGopherPath",  query="select gi from GopherItem gi where gi.gopherPath = :path order by gi.creationDate ASC"),
 	@NamedQuery(name="GopherItem.findByParentPath",  query="select gi from GopherItem gi where gi.parentPath = :path order by gi.creationDate ASC"),	
-	@NamedQuery(name="GopherItem.deleteVolatileItems", query="delete from GopherItem gi where gi.persistOverRestart = false")
+	@NamedQuery(name="GopherItem.deleteVolatileItems", query="delete from GopherItem gi where gi.persistOverRestart = false"),
+	@NamedQuery(name="GopherItem.deleteByParentPath", query="delete from GopherItem gi where gi.parentPath = :path")
+	
 })
 //File Type - Display Text - Selector String - Domain Name - Port - CRLF
 public class GopherItem {
@@ -56,6 +58,12 @@ public class GopherItem {
 	
 	@Column(name="creation_date")
 	private Date creationDate;
+	
+	@Column(name="update_date")
+	private Date updateDate;
+	
+	@Column(name="ttl_minutes")
+	private int ttlMinutes;
 	
 	@OneToOne
 	@Column(name="resource_descriptor")
@@ -147,6 +155,22 @@ public class GopherItem {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public int getTtlMinutes() {
+		return ttlMinutes;
+	}
+
+	public void setTtlMinutes(int ttlMinutes) {
+		this.ttlMinutes = ttlMinutes;
 	}
 
 }

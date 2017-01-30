@@ -22,11 +22,11 @@
 			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)" />
 
 			<!-- Log SQL from JPA -->
-			
+			<!-- 
 			<property name="openjpa.Log" value="SQL=TRACE"></property>
 			<property name="openjpa.ConnectionFactoryProperties"
 				value="PrintParameters=True, PrettyPrint=true, PrettyPrintLineLength=80" />
-			 
+			  -->
 			 
 		</properties>
 

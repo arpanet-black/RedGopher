@@ -1,5 +1,7 @@
 package black.arpanet.gopher.db;
 
+import org.apache.commons.lang3.StringUtils;
+
 import black.arpanet.gopher.GopherResourceType;
 import black.arpanet.gopher.ServerResourceType;
 import black.arpanet.gopher.db.entities.GopherItem;
@@ -133,14 +135,11 @@ public class GopherItemBuilder  {
 		
 	}
 
-	public static GopherItem buildRss2Feed() {
-		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.RSS2_FEED);
+	public static GopherItem buildRss2Link(String displayText, String gopherPath, String resourcePath, String parentPath, String domainName, int port, boolean persistent) {
+		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.RSS2_LINK);
 		
-		GopherItem item = new GopherItem();
-		
-		item.setResourceDescriptor(resourceDescriptor);
-		
-		//TODO: Set props
+		GopherItem item = buildGopherItem(displayText, gopherPath, resourcePath, parentPath, domainName, port,
+				persistent, resourceDescriptor);
 		
 		return item;
 		
@@ -153,7 +152,7 @@ public class GopherItemBuilder  {
 		
 		item.setResourceDescriptor(resourceDescriptor);
 		
-		//TODO: Set props
+		//TODO: Set props?
 		
 		return item;
 		
@@ -228,6 +227,30 @@ public class GopherItemBuilder  {
 		
 	}
 	
+	public static GopherItem buildRss2Feed(String displayText, String gopherPath, String parentPath, byte[] bytes, String domainName, int port, boolean persistent, String ttl) {
+		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.RSS2_FEED);
+		
+		if(StringUtils.isBlank(ttl)) {
+			ttl = "0";
+		}
+		
+		GopherItem item = buildVirtualGopherItem(displayText, gopherPath, parentPath, bytes, domainName, port, persistent,
+				resourceDescriptor, Integer.valueOf(ttl));
+		
+		return item;
+		
+	}
+	
+	public static GopherItem buildRss2Item(String displayText, String gopherPath, String parentPath, byte[] bytes, String domainName, int port, boolean persistent) {
+		ResourceDescriptor resourceDescriptor = RedGopherDbManager.findResourceDescriptor(GopherResourceType.HTML, ServerResourceType.RSS2_ITEM);
+		
+		GopherItem item = buildVirtualGopherItem(displayText, gopherPath, parentPath, bytes, domainName, port, persistent,
+				resourceDescriptor);
+		
+		return item;
+		
+	}
+	
 	public static GopherItem buildWithoutResourceDescriptor(String gopherPath, String resourcePath, String displayText, String domainName, int port, String parentPath, boolean persistOverRestart) {
 		GopherItem item = new GopherItem();
 		
@@ -258,9 +281,14 @@ public class GopherItemBuilder  {
 		item.setPersistOverRestart(persistent);
 		return item;
 	}
-
+	
 	private static GopherItem buildVirtualGopherItem(String displayText, String gopherPath, String parentPath, byte[] bytes,
 			String domainName, int port, boolean persistent, ResourceDescriptor resourceDescriptor) {
+		return buildVirtualGopherItem(displayText, gopherPath, parentPath, bytes, domainName, port, persistent, resourceDescriptor, 0);
+	}
+
+	private static GopherItem buildVirtualGopherItem(String displayText, String gopherPath, String parentPath, byte[] bytes,
+			String domainName, int port, boolean persistent, ResourceDescriptor resourceDescriptor, int ttl) {
 		GopherItem item = new GopherItem();
 		
 		item.setResourceDescriptor(resourceDescriptor);
@@ -273,6 +301,7 @@ public class GopherItemBuilder  {
 		item.setPort(port);
 		item.setPersistOverRestart(persistent);
 		item.setContent(bytes);
+		item.setTtlMinutes(ttl);
 		return item;
 	}
 

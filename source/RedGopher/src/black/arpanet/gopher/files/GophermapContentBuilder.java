@@ -385,20 +385,22 @@ public class GophermapContentBuilder implements ContentBuilder {
 		String itemDomain = el.getChild(SERVER_ELEMENT_NAME) != null ? el.getChild(SERVER_ELEMENT_NAME).getValue() : domainName;
 		int itemPort = el.getChild(PORT_ELEMENT_NAME) != null ? Integer.valueOf(el.getChild(PORT_ELEMENT_NAME).getValue()) : port;
 		String gopherPath = el.getChild(GOPHER_PATH_ELEMENT_NAME) != null ? el.getChild(GOPHER_PATH_ELEMENT_NAME).getValue() : null;
-		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : currentGopherDir;					
+		String resourcePath = el.getChild(RESOURCE_PATH_ELEMENT_NAME) != null ? el.getChild(RESOURCE_PATH_ELEMENT_NAME).getValue() : "";					
 		String parentPath = el.getChild(PARENT_PATH_ELEMENT_NAME) != null ? el.getChild(PARENT_PATH_ELEMENT_NAME).getValue() : currentGopherDir;
 
 		if(StringUtils.isBlank(gopherPath)) {
 			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s", el.getName(), displayText));
 			return null;
 		}
+		
+		if(StringUtils.isBlank(resourcePath)) {
+			w(LOG, String.format("Skipping RSS2Feed item - No resourcePath found: Item: %s, Display Text: %s, Gopher Path: %s", el.getName(), displayText, gopherPath));
+			return null;
+		}
 
 		String virtualGopherPath = parentPath + gopherPath;
 
-		//Prepend current directory to resource path
-		resourcePath = getResourceUri(resourceParentPath, resourcePath);
-
-		return null; //GopherItemBuilder.buildHtmlFile(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
+		return GopherItemBuilder.buildRss2Link(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);
 	}
 
 	private GopherItem fromVirtualDirectoryElement(String currentGopherDir, String resourceParentPath, Element el, boolean persistent, String displayText) {

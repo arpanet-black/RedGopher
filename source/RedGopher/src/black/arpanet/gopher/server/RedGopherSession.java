@@ -1,21 +1,13 @@
 package black.arpanet.gopher.server;
 
-import static black.arpanet.util.logging.ArpanetLogUtil.d;
 import static black.arpanet.util.logging.ArpanetLogUtil.e;
 import static black.arpanet.util.logging.ArpanetLogUtil.t;
-import static black.arpanet.util.logging.ArpanetLogUtil.w;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -30,10 +22,9 @@ import black.arpanet.gopher.server.content.ContentHandlerFactory;
 public class RedGopherSession extends Thread {
 
 	private static final String SOCKET_REJECT_MESSAGE = "3Server at max capacity.\r\n.\r\n";
-	private static final String NO_FILES_MESSAGE = "3No files available.\r\n.\r\n";
+	private static final String RESOURCE_NOT_FOUND_MESSAGE = "3Resource not found: %s.\r\n.\r\n";
 	private static final int BUFFER_SIZE = 1024;
 	private static final Logger LOG = LogManager.getLogger(RedGopherSession.class);
-	private static final String PATH_SEP = "/";
 
 	protected Socket socket;
 
@@ -51,9 +42,14 @@ public class RedGopherSession extends Thread {
 					InputStreamReader inReader = new InputStreamReader(socket.getInputStream()); ) {
 
 				//Read the input and process
-				byte[] buffer = handleGopherRequest(readInputLine(inReader));
+				String input = readInputLine(inReader);
+				byte[] buffer = handleGopherRequest(input);
 
 				//Send the result back to the client
+				if(buffer == null || buffer.length < 1) {
+					buffer = String.format(RESOURCE_NOT_FOUND_MESSAGE, input).getBytes();
+				}
+				
 				socket.getOutputStream().write(buffer, 0, buffer.length);													
 
 			} catch (Exception e) {
@@ -87,8 +83,6 @@ public class RedGopherSession extends Thread {
 	//Where the magic happens
 	public byte[] handleGopherRequest(String input) {
 		t(LOG,"Input is: " + input.trim());
-		
-//		RedGopherDbManager.logAllItems();
 
 		StringBuilder sb = new StringBuilder("[");
 		for(int i = 0; i < input.length(); i++) {
@@ -117,12 +111,14 @@ public class RedGopherSession extends Thread {
 			item.setResourceDescriptor(RedGopherDbManager.findResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.LOCAL_DIRECTORY));
 			item.setGopherPath("");
 		} else {
-			item = RedGopherDbManager.findSingleItemByGopherPath(input.trim());
+			//Searches can separate input queries with a tab, so try to handle that
+			String[] inputItems = input.trim().split("\t");
+			item = RedGopherDbManager.findSingleItemByGopherPath(inputItems[0]);
 		}
 
 		ServerResourceType serverResType = ServerResourceType.fromOrdinal(item.getResourceDescriptor().getServerResourceType()); 
 			
-		return ContentHandlerFactory.getHandler(serverResType).getContent(item);				
+		return ContentHandlerFactory.getHandler(serverResType).getContent(item, input.trim());				
 		
 	}
 	

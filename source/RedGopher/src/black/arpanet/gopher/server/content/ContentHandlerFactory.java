@@ -26,10 +26,13 @@ public class ContentHandlerFactory {
 			
 		case SEARCH:
 			return new SearchContentHandler();
+		
+		case RSS2_LINK:
+		case RSS2_FEED:		
+			return new Rss2FeedContentHandler();
 			
-		case RSS2_FEED:
 		case RSS2_ITEM:
-			return new Rss2ContentHandler();
+			return new Rss2ItemContentHandler();
 			
 		default: w(LOG, String.format("Could not find content handler for resource type: %s", srt.toString()));
 			break;
