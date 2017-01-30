@@ -10,7 +10,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,6 +43,19 @@ public class RedGopherDbManager {
 
 		t(LOG,"Out createResourceDescriptor(GopherResourceType,ServerResourceType,String).");
 		return rd;
+	}
+	
+	public static void logAllItems() {
+		Query q = em.createNativeQuery("select * from public.gopher_item", GopherItem.class);
+		List<GopherItem> results = q.getResultList();
+		
+		if(results.size() < 1) {
+			w(LOG,"NO GOPHER ITEMS FOUND!!!");
+		}
+		
+		for(GopherItem gi : results) {
+			w(LOG, String.format("GOPHER ITEM: %s / %s / %s", gi.getDisplayText(), gi.getGopherPath(), gi.getParentPath()));
+		}
 	}
 	
 	public static ServerFileType createServerFileType(String fileExtension, ResourceDescriptor resourceDescriptor) {
@@ -155,7 +171,7 @@ public class RedGopherDbManager {
 
 		return gopherItems;
 	}
-
+	
 	public static List<GopherItem> findGopherItemsByParentPath(String parentPath) {
 
 		TypedQuery<GopherItem> q = em.createNamedQuery("GopherItem.findByParentPath", GopherItem.class);
@@ -180,7 +196,24 @@ public class RedGopherDbManager {
 
 		return gopherItems;
 	}
+	
+	public static GopherItem findSingleItemByGopherPath(String gopherPath) {
 
+		TypedQuery<GopherItem> q = em.createNamedQuery("GopherItem.findByGopherPath", GopherItem.class);
+		q.setParameter("path", gopherPath);
+
+		GopherItem gopherItem = null;
+		
+		try {
+			gopherItem = q.getSingleResult();
+		} catch(NoResultException ex) {
+			w(LOG, String.format("No gopher item found for path: %s", gopherPath), ex);
+		} catch(NonUniqueResultException ex) {
+			w(LOG, String.format("Multiple gopher items found for path, but single result was expected: %s", gopherPath), ex);
+		}
+
+		return gopherItem;
+	}
 
 	public static void checkpointDb() {
 		i(LOG,"Database checkpoint initiated.");

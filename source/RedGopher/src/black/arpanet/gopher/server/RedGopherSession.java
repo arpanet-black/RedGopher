@@ -25,6 +25,7 @@ import black.arpanet.gopher.GopherResourceType;
 import black.arpanet.gopher.ServerResourceType;
 import black.arpanet.gopher.db.RedGopherDbManager;
 import black.arpanet.gopher.db.entities.GopherItem;
+import black.arpanet.gopher.server.content.ContentHandlerFactory;
 
 public class RedGopherSession extends Thread {
 
@@ -86,6 +87,8 @@ public class RedGopherSession extends Thread {
 	//Where the magic happens
 	public byte[] handleGopherRequest(String input) {
 		t(LOG,"Input is: " + input.trim());
+		
+//		RedGopherDbManager.logAllItems();
 
 		StringBuilder sb = new StringBuilder("[");
 		for(int i = 0; i < input.length(); i++) {
@@ -102,104 +105,27 @@ public class RedGopherSession extends Thread {
 	}
 
 	//Load resource content
-	//TODO: Break this out into a "handler" interface and implementation
 	private byte[] getContentForRequest(String input) {
 
-		List<GopherItem> items = null;
-
-		if(input.equals(RedGopherServer.CRLF)) {
-			items = RedGopherDbManager.findTopLevelGopherItems();
-
-			if(items == null || items.size() < 1) {
-				return NO_FILES_MESSAGE.getBytes();
-			}
-		} else {
-			items = RedGopherDbManager.findGopherItemsByGopherPath(input.trim());
-		}
-
-		return buildGopherResponse(items);
-	}
-
-	//Build a response based on the items being sent back
-	private byte[] buildGopherResponse(List<GopherItem> items) {
-
-		if(items.size() == 1) {
-			GopherItem item = items.get(0);
-
-			GopherResourceType gopherResType = GopherResourceType.fromOrdinal(item.getResourceDescriptor().getGopherResourceType());
-
-			if(gopherResType.equals(GopherResourceType.DIRECTORY)) {
-				items = RedGopherDbManager.findGopherItemsByParentPath(item.getGopherPath() + PATH_SEP);
-			} else {
-
-				ServerResourceType serverResType = ServerResourceType.fromOrdinal(item.getResourceDescriptor().getServerResourceType()); 
-
-				switch(serverResType) {				
-				case LOCAL_FILE: return loadLocalFile(item);
-				case RSS2_FEED:
-					break;
-				case RSS2_ITEM:
-					break;
-				case VIRTUAL_DIRECTORY:
-					break;
-				case VIRTUAL_FILE: return item.getContent();
-				default: w(LOG, "Unsupported serverResourceType: " + serverResType.toString());
-					break;
-
-				}
-
-			}
-		}
-
-		return buildMenu(items).getBytes();
-	}
-
-	//Load a file from the local file system
-	private byte[] loadLocalFile(GopherItem i) {
-		byte[] bytes = null;
-
-		try {
-			URI resUri = new URI(i.getResourcePath());
-			d(LOG, "Reading local file URI: " + resUri);					
-			File resource = new File(resUri);
-			return Files.readAllBytes(resource.toPath());
-
-		} catch (URISyntaxException urie) {
-			e(LOG, String.format("Exception attempting to obtain resource URI for GopherItem ID: %s", i.getId()), urie);
-			urie.printStackTrace();
-		} catch (FileNotFoundException fnfe) {
-			e(LOG, String.format("Exception attempting to open GopherItem resource URI for reading. ID: %s, URI: %s", i.getId(), i.getResourcePath()), fnfe);
-			fnfe.printStackTrace();
-		} catch (IOException ioe) {
-			e(LOG, String.format("Exception attempting to read from file. Gopher ID: %s, URI: %s", i.getId(), i.getResourcePath()), ioe);
-			ioe.printStackTrace();
-		}
+		GopherItem item = null;
 		
-		return bytes;
-	}
-
-	//Build a menu from the content items
-	private String buildMenu(List<GopherItem> items) {
-		StringBuilder sb = new StringBuilder();
-
-		for(GopherItem gi : items) {
-			//File Type - Display Text - Selector String - Domain Name - Port - CRLF
-			String gopherTypeId = GopherResourceType.values()[gi.getResourceDescriptor().getGopherResourceType()].getTypeId();
-			sb.append(String.format("%s%s%s%s%s%s%s%s%s%s", 
-					gopherTypeId,
-					gi.getDisplayText(), RedGopherServer.TAB,
-					gi.getGopherPath(), RedGopherServer.TAB,
-					gi.getDomainName(), RedGopherServer.TAB,
-					gi.getPort(), RedGopherServer.TAB,
-					RedGopherServer.CRLF));
+		if(input.equals(RedGopherServer.CRLF)) {
+			//Top level items have a gopher path that starts at root
+			//The content handler should add to this path so just
+			//make sure it is not null
+			item = new GopherItem();
+			item.setResourceDescriptor(RedGopherDbManager.findResourceDescriptor(GopherResourceType.DIRECTORY, ServerResourceType.LOCAL_DIRECTORY));
+			item.setGopherPath("");
+		} else {
+			item = RedGopherDbManager.findSingleItemByGopherPath(input.trim());
 		}
 
-		sb.append(".").append(RedGopherServer.CRLF);
-
-
-		return sb.toString();
+		ServerResourceType serverResType = ServerResourceType.fromOrdinal(item.getResourceDescriptor().getServerResourceType()); 
+			
+		return ContentHandlerFactory.getHandler(serverResType).getContent(item);				
+		
 	}
-
+	
 	//Static method for handling sockets that could not be accepted
 	//and given a session
 	public static void rejectSession(Socket socket) {

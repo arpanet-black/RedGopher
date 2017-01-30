@@ -17,8 +17,8 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name="GopherItem.findAll", query="select gi from GopherItem gi order by gi.creationDate ASC"),
 	@NamedQuery(name="GopherItem.findTopLevelItems", query="select gi from GopherItem gi where gi.parentPath = '/' order by gi.creationDate ASC"),
-	@NamedQuery(name="GopherItem.findByGopherPath", query="select gi from GopherItem gi where gi.gopherPath = :path order by gi.creationDate ASC"),
-	@NamedQuery(name="GopherItem.findByParentPath", query="select gi from GopherItem gi where gi.parentPath = :path order by gi.creationDate ASC"),
+	@NamedQuery(name="GopherItem.findByGopherPath",  query="select gi from GopherItem gi where gi.gopherPath = :path order by gi.creationDate ASC"),
+	@NamedQuery(name="GopherItem.findByParentPath",  query="select gi from GopherItem gi where gi.parentPath = :path order by gi.creationDate ASC"),	
 	@NamedQuery(name="GopherItem.deleteVolatileItems", query="delete from GopherItem gi where gi.persistOverRestart = false")
 })
 //File Type - Display Text - Selector String - Domain Name - Port - CRLF
