@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 
-import black.arpanet.gopher.GopherResourceType;
 import black.arpanet.gopher.db.GopherItemBuilder;
 import black.arpanet.gopher.db.RedGopherDbManager;
 import black.arpanet.gopher.db.entities.GopherItem;
@@ -21,7 +20,6 @@ import black.arpanet.gopher.feeds.FeedResponse;
 import black.arpanet.gopher.feeds.rss2.Rss2Channel;
 import black.arpanet.gopher.feeds.rss2.Rss2Item;
 import black.arpanet.gopher.feeds.rss2.Rss2Parser;
-import black.arpanet.gopher.server.RedGopherServer;
 import black.arpanet.util.logging.ArpanetStringUtil;
 
 public class Rss2FeedContentHandler extends DirectoryContentHandler {
@@ -30,13 +28,13 @@ public class Rss2FeedContentHandler extends DirectoryContentHandler {
 	//TODO: Make line length splitting a configurable property
 	private static final int LINE_LENGTH = 40;
 	//TODO: Make most of these configurable
-	private static final String TITLE_BANNER = "----- ";
+	private static final String TITLE_BANNER = " ----- ";
 	private static final String DIVIDER = "----------------------------------------";
-	private static final boolean LIMIT_TITLE_LENGTH = false;
+//	private static final boolean LIMIT_TITLE_LENGTH = false;
 	
 	private static final String PATH_SEP = "/";
 	private static final String TEXT_JOIN_STR = "\n";
-	private static final String GOPHER_JOIN_STR = RedGopherServer.CRLF + GopherResourceType.INFORMATION_TEXT.getTypeId();
+//	private static final String GOPHER_JOIN_STR = RedGopherServer.CRLF + GopherResourceType.INFORMATION_TEXT.getTypeId();
 	
 	private static final Logger LOG = LogManager.getLogger(Rss2FeedContentHandler.class);
 
@@ -104,9 +102,10 @@ public class Rss2FeedContentHandler extends DirectoryContentHandler {
 			
 			String itemTitle = rss2item.getTitle();			
 			
-			if(LIMIT_TITLE_LENGTH && itemTitle.length() > LINE_LENGTH) {
-				itemTitle = itemTitle.substring(0, LINE_LENGTH);
-			}
+			//TODO: Make this optional?
+//			if(LIMIT_TITLE_LENGTH && itemTitle.length() > LINE_LENGTH) {
+//				itemTitle = itemTitle.substring(0, LINE_LENGTH);
+//			}
 			
 			GopherItem rss2ItemItem = GopherItemBuilder.buildRss2Item(itemTitle, itemPath, feedGopherPath, itemContent.getBytes(),
 					feedLink.getDomainName(), feedLink.getPort(), feedLink.isPersistOverRestart());
@@ -114,8 +113,9 @@ public class Rss2FeedContentHandler extends DirectoryContentHandler {
 			RedGopherDbManager.mergeGopherItem(rss2ItemItem);
 			
 			//Add a description after the item
-			GopherItem infoItem = GopherItemBuilder.buildInfo(ArpanetStringUtil.breakLines(Jsoup.parse(rss2item.getDescription()).text(), LINE_LENGTH, GOPHER_JOIN_STR), feedGopherPath, feedLink.isPersistOverRestart());
-			RedGopherDbManager.mergeGopherItem(infoItem);
+			//TODO: Make this optional?
+//			GopherItem infoItem = GopherItemBuilder.buildInfo(ArpanetStringUtil.breakLines(Jsoup.parse(rss2item.getDescription()).text(), LINE_LENGTH, GOPHER_JOIN_STR), feedGopherPath, feedLink.isPersistOverRestart());
+//			RedGopherDbManager.mergeGopherItem(infoItem);
 		}
 		
 		if(StringUtils.isNotBlank(fc.getTtl())) {

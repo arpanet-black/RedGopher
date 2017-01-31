@@ -37,7 +37,7 @@ public class Rss2Parser {
 			Element channelElement = root.getChild(CHANNEL_ELEMENT_NAME);
 			
 			for(Element element : channelElement.getChildren()) {
-				switch(ChannelChildElement.valueOf(element.getName().toUpperCase())) {
+				switch(ChannelChildElement.fromString(element.getName())) {
 				case CATEGORY: channel.setCategory(element.getValue());
 					break;
 				case COPYRIGHT: channel.setCopyright(element.getValue());
@@ -88,7 +88,7 @@ public class Rss2Parser {
 		
 
 		for(Element el : imageElement.getChildren()) {
-			switch(ImageChildElement.valueOf(el.getName().toUpperCase())) {
+			switch(ImageChildElement.fromString(el.getName())) {
 			case DESCRIPTION: image.setDescription(el.getValue());
 				break;
 			case HEIGHT: image.setHeight(el.getValue());
@@ -114,7 +114,7 @@ public class Rss2Parser {
 		Rss2Item item = new Rss2Item();
 		
 		for(Element el : itemElement.getChildren()) {
-			switch(ItemChildElement.valueOf(el.getName().toUpperCase())) {
+			switch(ItemChildElement.fromString(el.getName())) {
 			case AUTHOR: item.setAuthor(el.getValue());
 				break;
 			case CATEGORY: item.setCategory(el.getValue());
@@ -152,7 +152,7 @@ public class Rss2Parser {
 		Rss2Enclosure enclosure = new Rss2Enclosure();
 		
 		for(Element el : enclosureElement.getChildren()) {
-			switch(EnclosureChildElement.valueOf(el.getName().toUpperCase())) {
+			switch(EnclosureChildElement.fromString(el.getName())) {
 			case LENGTH: enclosure.setLength(el.getValue());
 				break;
 			case TYPE: enclosure.setType(el.getValue());
