@@ -146,7 +146,7 @@ public class Rss2FeedContentHandler extends DirectoryContentHandler {
 		}
 		
 		infoItem = GopherItemBuilder.buildInfo(DIVIDER, gopherDir, persistent);
-		RedGopherDbManager.mergeGopherItem(infoItem);
+		RedGopherDbManager.mergeGopherItem(infoItem); 
 		
 	}
 	
