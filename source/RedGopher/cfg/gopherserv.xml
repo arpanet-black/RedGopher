@@ -13,5 +13,13 @@
     		<value>GOPHERMAP</value>
     	</param>
     </monitor>
+    <searchClient>
+    	<resourcePath>google.com</resourcePath>
+    	<className>black.arpanet.gopher.search.GoogleSearchClient</className>
+    </searchClient>
+    <searchClient>
+    	<resourcePath>localhost</resourcePath>
+    	<className>black.arpanet.gopher.search.LocalSearchClient</className>
+    </searchClient>
   </content>
 </serv:serv>

@@ -28,7 +28,8 @@
 	
 	<xs:complexType name="serverContent">
 		<xs:sequence>			
-			<xs:element name="monitor" type="serv:contentMonitor" minOccurs="1" maxOccurs="unbounded" />		
+			<xs:element name="monitor" type="serv:contentMonitor" minOccurs="1" maxOccurs="unbounded" />	
+			<xs:element name="searchClient" type="serv:searchClient" minOccurs="0" maxOccurs="unbounded" />			
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -36,6 +37,13 @@
 		<xs:sequence>			
 			<xs:element name="className" type="xs:string" minOccurs="1" maxOccurs="1" />
 			<xs:element name="param" type="serv:param" minOccurs="0" maxOccurs="1" />		
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="searchClient">
+		<xs:sequence>
+			<xs:element name="resourcePath" type="xs:string" minOccurs="1" maxOccurs="1" />			
+			<xs:element name="className" type="xs:string" minOccurs="1" maxOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
 	

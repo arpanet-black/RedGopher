@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gopher:gophermap xmlns:gopher="http://arpanet.black/gopher/files" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://arpanet.black/gopher/files gophermap.xsd ">
-  
-  <info>Welcome to RedGopher</info>
+<info>Welcome to RedGopher</info>
   <error>Oops.</error>
   <info></info>
   
+  <search>
+ 	<displayText>SEARCH</displayText>
+   	<gopherPath>search</gopherPath>
+   	<resourcePath>google.com</resourcePath>
+  </search>
+  
+  <info></info>
+  <info></info>
   <info>A File Resource Example</info>
   <textFile>
   	<displayText>A Resource Text File</displayText>
@@ -12,19 +19,31 @@
     <resourcePath>resource.txt</resourcePath>
   </textFile>
   
+  <info></info>
   <info>A Directory Resource Example</info>
   <directory>
-    <displayText>A Sub-Directory</displayText>
-    <resourcePath>/images</resourcePath>
+    <displayText>A Sub-Directory with pictures</displayText>
+    <resourcePath>images</resourcePath>
   </directory>
   
+  <info></info>
+  <info>Another Directory Resource Example</info>
+  <directory>
+    <displayText>A Sub-Directory</displayText>
+    <resourcePath>another_subdir</resourcePath>
+  </directory>
+  
+  <!-- 
+  <info></info>
   <info>A BLOB Resource Example</info>
   <virtualBinaryFile>
     <displayText>A BLOB</displayText>
-    <gopherPath>testfile.txt</gopherPath>
+    <gopherPath>/testfile1.txt</gopherPath>
     <base64EncodedContent>VGhpcyBpcyBhIHRlc3QuDQpJIGFtIGVuY29kaW5nIG11bHRpcGxlIGxpbmVzIGludG8gQmFzZTY0Lg0KRG9lcyBpdCBwcmVzZXJ2ZSB0aGlzIHdlbGw/</base64EncodedContent>
   </virtualBinaryFile>
+  -->
   
+  <info></info>
   <info>A Virtual File Resource Example</info>
   <virtualTextFile>
     <displayText>A Text File</displayText>
@@ -32,8 +51,101 @@
     <textContent>This is a test!
     Can it do 2 lines??</textContent>
   </virtualTextFile>
+ 
+  <info></info>
+  <info>A Virtual Directory Example</info>
+  <virtualDirectory>
+  	<displayText>A Virtual Directory</displayText>
+    <gopherPath>/virtualdir</gopherPath>
+    <resourcePath>/virtualdir</resourcePath>
+    <gophermap>
+    	<info>Virtual text file inside a virtual directory!</info>
+    	
+		<virtualBinaryFile>
+			<displayText>A BLOB</displayText>
+			<gopherPath>testfile.txt</gopherPath>
+			<base64EncodedContent>VGhpcyBpcyBhIHRlc3QuDQpJIGFtIGVuY29kaW5nIG11bHRpcGxlIGxpbmVzIGludG8gQmFzZTY0Lg0KRG9lcyBpdCBwcmVzZXJ2ZSB0aGlzIHdlbGw/</base64EncodedContent>
+		</virtualBinaryFile>
+
+		<info></info>
+		<info>Download some disks!</info>
+		<binaryArchive>
+			<displayText>Disks!</displayText>
+			<gopherPath>disks.zip</gopherPath>
+			<resourcePath>/a2diskii.zip</resourcePath>
+		</binaryArchive>
+		
+		<info></info>
+		<info>Welcome to the Retro Revolution</info>
+		<virtualHtmlFile>
+			<displayText>Virtual Webpage Example</displayText>
+			<gopherPath>www/retro.html</gopherPath>
+			<base64EncodedContent>PEhUTUw+DQo8SEVBRD4NCjxUSVRMRT5UZXN0IFdlYiBQYWdlPC9USVRMRT4NCjwvSEVBRD4NCjxCT0RZPg0KPEgxPldFTENPTUUgVE8gVEhFIFJFVFJPIFJFVk9MVVRJT048L0gxPg0KU2VydmVkIHVwIGFzIGEgVmlydHVhbCBIVE1MIGZpbGUhIQ0KPC9CT0RZPg0KPC9IVE1MPg==</base64EncodedContent>
+		</virtualHtmlFile>
+	
+		<info></info>
+		<info>----- ///I M A G E S -----</info>
+		<virtualImage>
+			<displayText>putin.jpg</displayText>
+			<gopherPath>putin.jpg</gopherPath>
+			<base64EncodedContent>/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUSEhMWFhUVFxUVFRcVFRUXFxUVFRUWFhUVFRUYHSggGBolHRUVITEhJSkrLy4uFx8zODMtNygtLisBCgoKDg0OFxAQFy0dFR0rLS0tLS0tLS0tLS0rKy0rLSsrKy0tLS0tKystLSstKy0rLTctKy0tLSsrNy0tKystLf/AABEIAQsAvQMBIgACEQEDEQH/xAAcAAAABwEBAAAAAAAAAAAAAAAAAQIDBAUGBwj/xABOEAABAwIDBAYHBQMHCQkAAAABAAIDBBEFEiEGEzFBByJRYXGBFDJTkZOx0RUjQqHBM1JiFjRygpKy8CQmNnSis7TD4Qg1RHOElMXi8f/EABkBAQEBAQEBAAAAAAAAAAAAAAEAAgQDBf/EACMRAQEAAgICAQQDAAAAAAAAAAABAhEDIRIxQQQiUWETFDL/2gAMAwEAAhEDEQA/ALIYfD7KP4bPolChh9lH8Nn0T4RhJMegw+yj/sN+iP0GH2Uf9hn0T9kYQDAoIfZR/DZ9EoUEPso/hs+ifARhDSP6BD7KP4bPolegQ+yj+Gz6J9KAUkcYfD7KP4bPolDD4fZR/DZ9FIRqKP8AZ8Pso/hs+iH2dD7KP4bPopIRqSMMPh9jF8Nn0R/Z0PsYvhs+ikBLCgiDDofYxfDZ9EBh0PsY/hs+ilpQCkifZ0PsY/hs+iUMOh9jF8Nn0UpBTOkb7Oh9jF8Nn0Q+z4fYxfDZ9FJRqOkYYdD7GL4bPoh9nwexi+Gz6KUisgaRTh8PsYvhs+iL7Ph9jF8Nn0UtCyTIqkYQRhaQ0aJGoFBGEVkoBZrQAI0AEaEASkV1BqcVYzh1j+XvVcpDJb6WAQc4DiQFmKrFZX8HBo7BxUVpJ4+9eOXN+HtOG322LZB+8PeEoPWUjHj71IjkI4FZn1H6b/r/AIaYJSzkeLPZqRcc1cUWIRy+qdf3Tx9y9ceSZPHLjuKWgjKAW3mFkEdkakFkEAlBSJsglIiFJUI0QSlsDCMIgjVUUlNSWpQKzTBowisoOOVe7iNjYkEDw5lF6MVOLYtmJa02YDbjxP8AgKA+e/j2f44Ksa0uP6K7w6hL3AW04klc+fb3whuko5JDoCR2q5gwBwF7AfNaPDImMaAANFIe4HReNdeOLLPw/LxSmUg4tOvgtFJCCOAVbUUtuCzp6SKyajNlSzxuYbglpHAjQhaOZxsqqqcXaEeap0rjLFpgGL74ZHkbxv8AtDtCuQucTtfBI2QX0N1vMLr2zMDhx5jsK7OPPb53Lx3G/pMRgIAI17PIAEEaCNIEEEFJTBKRI7rTIwlBE1GFVF2QaEQSgs0wYWM2nq87yBwGnjb/AK3WlmxGL7xjXfeNadPLke5YgknjxK87nt7fxWd1PwWk954ns52HYtdQwhg5KlwywbYC+v8Ai6uGOXhlk9+PFNp5NSno5DeyhUztSno5NV5yurSfmTUguhmR30SkKogBCjNpR4qxeU0Fixqdq6tomvbYjwVVgku5ky30vZ36FXUsovxWXxaXLNccx8lrC6rx58ftdABQTFE/NGw9rQfyT4X0JdvmghZKQSRWRJRRBCUwR2QCOytsaGEoBElAKtOhgIybC/YiQdwPgs30cZ3GTpoL7yXiXONu2yr5IetYc1a4pE7qtZcHKDcdnM+8lNPpnBzLg3XFK+lyzafQxWAKsY9E2xlhYImnWyL2cZqJMblITDXRji8ad/FS4Jo3C4cLJka2SHlKDinixqbcOxJIL0zPIDx080uZht/+KtqngC2b8rrGTUR5H6qkxcggHxVnPoFTYm/S3+OKeOdvLnv2ug4V+xi/oN+QUoJigbaKMdjG/IKSAu7F8y+wCNEjW0BQSgishKUJQSQlBVEGlNSUoIqLRIIwgy6qun0GSwzA5mk8231amnvzOzKVWObYtkaSOLSBw8bcFXOeANOS48pqvpY5TKdJ7VExWn0zA+ScopLqTJJa/A91idENaY91Q8g5QNOIJOnebAqvdVSZxc2sdCHXF+/gQfFbGerie1zHX1FjpbQ6WWUdg7GE7s3Ljc8dR434rWprfyzrLf6XlBjD9A838eQ8VexV4vx0WTo6N+Yc724KTjEno4F+LvVH6rG3pGknxCPmdOahvxIHRrmgdiw89RI+/ADtcUdG8tIJsQfxsdmF+w9hT4s+TS1zjmVLJmfKIxrdwCmRTOcO0NupWx2GmSbfH1Wa37XLfHj28eXLpuo22AHYAPcnQkhKauvFwjR2RoLQEgjQQlGEpJCMKqhSUAkpMs7WC73Bo7XEAfmhHUpUU21tE02M7fK5TTttqEcJr+DSpL6f1XeB+SoQE7HtAyoa8QNLmtA3jyC1rM1w0a8XGx07AU2Cufmdf086PQiynxa9/wCqp3VOtlJgqLc14uyJs+Esfw6p7k2zAm8XOce5NOxQN4n3J+kqnPGa2iWrNJlHQNuLC1lmto4s1QewAAfqtrS9Vt1kax2aZ1+ZVYxFQaVj2mN9gDzSIsFYAN2TYcew37bK9OEtdwJHaEl9DuxofzRtXjntCZS2aWt4nTzK2WE0QhibGOQ17zzKpsApt4/MeDNfPktIujiny4vqMu/GAjCFkAvaOYtqUkhKWkMpKUUVkJkftqmHGZn9oKNU7VUjBfeZz2MBJXKDImnylI23OJdIDtRDGG97jc+IHBYfGcZmmJL3uce8/IclFfKe1JiZmNyrRCnoy7UmymwQtZw49qJzk091wR2hUgrtmH4P6Ng8F/XnfvpO05muLG+Tco96q2zdW/Yt5tNTXoIsvCLJ7suX9QubvOVxHIrl5/8ATt+nv2p7WXIKane6+VoJPd+qdjksGnuV7s5JmhOlsznE9p4D9F4OuKKko2jrPN3KRSYmI3btw6p1B8eXipFRROkqCIiMoH3h4hh5eLj2J7FNjnSMvDJ1rX6+lz4jgVqLLJOfiTQyzT8lmKyYD7zN1s3by1VLidJWQOySsLb8HXu0+BBskMis3UkntKqpk0UeLBFJWl5AbqToLcyVngDZaXYqgu50zvw9VvieJ93zVjj5XTPLy+OO2ooqVsTQ1o8e8qQgjsu2YyPl277BG0IWSmhIKQBRoWShorI7IITzPdNuck5kdkggi6kRAKOHX0T/AAamIslMX4pwDRNuHJIerKFonphG7hJE3XszNBBHmuZ4pRuYXMcLOYSCO8foePmugbG1AkoqZw5wx+8NAPyTO1+BmZhljH3jRZw/faP1C8ubDy7j24M/G6vpzdlRpbvWlwWMua1jTa/E9gP6rIyN/JaTZzMY2kg2JNj3AlcdjvlayMRsa1kYs38IHM8S4nn23Tr3ZXXLgLdv5rPCvcZnWOkYDR2Znan8gPesvtXtflfueDiB1uIAJtr7imKz5rpdXEyRuRzQ9pvcGxBWRxDYfrZoX2v+B5Jb/VfxHndO7NVktQA58lm8mxnU/wBJ54DwHmtU4Fo+Vzf80LpyfFx6Nm3wy5Bcg8zyA7b9qhbH9IJY7dzgbsk2txZc/mFL6cJQXU7RxtIT4DKBfzJXK2OsV1cWGptx8/Jblp6dpqhsjQ9hDmnUEa3T4XFNjNsH0pyu60Z4tvw729/cuuYTjENS3NE8Htb+IeIXq8FglBJSgFIoI0AEFILIIFCyKnmBGklAC6QJwtqPPvT+cFFlCBKYiieSbyo7orpD0R0VVWfDaf8AgzMP9V5HyW5Dbhcu6D581G9n7krvc4ArqFOeSdMsJtlsvmLqiEdY/tGD8f8AE3sd81Rw7Qs3Aa1ha5gAI5Cwt5eC6RtHicFLC6adwa0e9x5Bo5lcao8fjraqYCIMDgHAjiQ026/a7W65ubj13HXwc3eqbftQQ0sERJBNiPxXJJJvw/6LI1NDPUzE5bueQGt1PcAF02mwNrtbcTYd6n4PhDIps5HAG3noSvCXTrt2k7I7NMpYGskDZH65nOAd5C/IKzqbt10AA0AAAHboFNa8WVLjU9mElWQjjfSNX72sP8DWsHvLj/eWUMfNT8Zn3k0ju1zreANh8lDa7kV14dSRwcl3lalU4tZWdDWPicHxuLXDgQVVwqVGVtmOmYB0hNLQ2pGo/G3n4hbPDcYgn/ZSNd3XsfcuCtKkQylpDmkgjgRxCi9BgowuYYDt5JHZk43jf3vxD6rf4Ti8NQ3NE8HtH4h4hWksEd0SCxRXl0uRtKJAhaBwORlICF1qI4iukZkq6g7D0BydWqb2GN35OC6xV1scET5pTZjBcn9B3lcd6AH/AH1U3+CI/wC09aDpDqn1T9xGfuoj1yODpP8A6/MrV9COb7WbUTYjPJK92SOM5I4SeDb8gOLjzKgYNViKpbIbRN4FhuLhwIvr32V5tjs8IWsqG8bsZxAs42yucTy0ssjiEjSXte4SP6oa5puOGgPvWMpuaanV27ZhtWL2vxsPAHUq3eQNdNVzrZeSURBr9ZG6+LDwHeRwWyw7Ec3VJt4iy4Mp43T6XHlMptY+kaGxuB4LMbYVhZTyPH4Wk8eZ0HzWtbBccRbvCynSRS/5FKG9jSfAOBPyVO7Dl6riBNkTBdOtRLvj5p1gUqEqLGnwdFJIaUtMsSxdKlPNKl0dW+NwcxxaRzBsoLSltcpV0rBtv2CO1SDnHNovmHaR2raUNWyaNskbrtcLgrz5PPyC650XuJoW3P4328LosZcLzIEpJRIJ0oImnQI7LSAlGXJJREqDedFFdJFLUbsEufE1o7iXGxP5rp/2fuqQl3rOsBfiXE6k9/Fc56FP5xP/AEY/m5dO2pnF44y4Bo1cTwA5k+AutydD5ZfpDIZQhjnhpkcwDtOXrkD+yPeuSV05f1ngMLA3IzLluL9+vetLtrj3pk7zciKMllOLHXKNCb/vHX3LM4hK5xL5XWkFgGkWuDrcDzus2F0eTEo4RStd68gYB3XPE9y1VL1hfsK5DEybEquNjbNLI2guPqxshbd8htx7bc7gLquFzi5Ze/IciSNOHkuTmx726uDPUaqFwslSQxyNIeAWkEEHgQeII7EzR4bUP4Nyg/ifp7hxK0OGYEyPV7i93G54Dwb9VnHC1vLlxjz10jbFmgcyVl9xMXhgI1jcOsGE8wQSQf4VinngvUXSjs96Zh8zGi8kY30Xbnj1IHi3M3zXlrjr2rqkcm9nWKTG1MRNUxoWoCmo7pKIyJRy6TLLYJD5LaqK+S/NB2Rck6ruXRw+9DHbkXA+N1xnC6KSokbFE3M93AfMk9i7tsthPolMyEm5Fy4j946lC086oWRoWQAj5hOEpoGxTritIkhIcbJTk2SpOq9A7PvKp1vwxAHzeT+ie6TMVu98TCb5Q46X6t9b9yR0JODIauR2gBbc9ga0kn81k8YrxNO6Yh5jmuAAdXkeqAONuC38Mocxu4+uXnK+E9t+JI5eqfcFEqHkfeFx3wcQWkaWtbgpbWuADQH+kNJu69+oBYDjbTRRHyhuV7CS5zXCTML5SSLn/F0F3bYfAqBkUFXBTND3wtDnZnuvnYBIC0uy6m99FuMLpo4gBFFHGOxjGt+QXL+h7Eb08lI4gup33ab8Y5buFvB2b3hdNpJOGqwVwxLsmY3p0FFgB4XlbpH2f9Cr5omi0bjvYuzJJc5fJ2YeQXo7avainoITLO7XXIxti97uxo/XgF5q2u2hlxCodUS2GgDGDgxgvZo7eJN+0qhikYnt5pdRDKmHTlaSXJVAJn0m+vJRL3S2M5lSOvlc46ICJx4pcbnchopLI3HiUJpui+ECtZ25X/3V2lcS2GJbWwW5usfAtN12y6KY8xIwbpu6cYFMkyDROt4XRPboksPJaJQaSbNBJPAAEk+ACejwqd8zYGxOMr3ZWNAN3G5HV7RcHXhoUzFJlc14sS0hwuLi4IIuOY0W+6Hqh0+NwySnO/JMS52pJELm5ieZtzRtL3B9jcUo6GeD0eOR0lnSNjqGGZrD6zd3YAkgEaP7bXWTwHZuqrRK2mhzuiEbmkzNZumvLiBZxHW6jrjkQt1BtLFQ7RV8kwkc17RG0RszuLslO4Ai40DWHwup3QpOySrxV7GlrXvY5oIsbPmq3NuOXVLR5K3Q5nh2B1c9JJW08X3UIkFQ8zMBJja2R5DSbnQ8kluzlV6G+uijHoZ0c9z48wyyGIkNve2Y9i61hey02G4DiME7o3OcyqlBiLi3K6na0XLmg3uw8lTU4H8kJQDpeSxPZ6cLFW0zux+G1GHmjqqiJsdNVkRb3esN2zsMkRc0G7QMoJJ4WPauj4bWVUjGywUn3b7ZHT1LYDMDq10ceR5sRqM2Um/BZLpS/wBHML/9J/wcivuluZkTsNe/RsR3oFtfupqNxyD97IH280bLQDa0tAj9GlNTvWQup3Oja5peyR7H7y5Y5hEbrOB1sRoQQo0+29Tv3UcdC70wNztidNFlyFpO8dICWhoOUW4kuWTdtlBX45QupQ7IcrZDIzK4ujFQ5ltdRaV3vWurIxT1uKYkW5jDSRNYB63VjdK8dwJEfuPYrYcgqMKxXFquoBa2WandklG9ja2O7nAMjJNi0Fjhp2LO4Phc1VMymgZmleXhrS5rRdjXOd1jpwY5dR/7Ozy6Wuc43c5tO5xPNznTlx8ySsj0S/8AfVL/AE6r/h50lU7T7AYhRRGoqImsjzNbcSsebu4aNN+SmYZ0UYnNE2XJHHvBeNksoY94IzCzbGxtyNitB02YFXNnnqnud6JJJE2Mb4kB26A/Y3sNWP1Ww2jpH4rFRYlhUsbpqS7xC48XODCY3a9V4LALGwIPHti4RX4VLTSvgnjMcrDZ7TY2uARqNCCCDcIMYOxWu1OK1NVVSS1jQycZY3tDCzKYxYAtJOqqyO9SG54Hb5JvfE8Ag4O7U0XOHNQbfospC6szuHqMc4dxOi7Bdc66HqM7uad34nBgPc3U/mV0RZpjzIGpYRXRtSBOTJNk88qMUosFbboYrGx4xTl5ADhLGCdOs+N2UeZsPNYcKZhtGZHWB15ABxc534Wta0ElxUneIdjBUY5XS1lM402USMkcXsYXObCBle0i5AZLfXRR+g3dek4puBaLNHu7EkZN9V7uxOtsmX3Ln2Mz4g2NoqW4gyn6geyd1Tu33Oou/Sx4BpPNRMJZLvyKZtUGyAnLTmXOWi4aXNjJOUEusT2nvVpOg9H7y7ZvEyST/PBqSf8Aw0f5cUNn4nVOys0EDTJK0yAxsGZ9/SWy2DRqSWG4HNc1fDPTtkgldU0+YXELt9GJc3UN4+Dr2A706KirpntlJqKeR1m5GtngdI1pAsCLZ9XDTW10Bv8ApdbusEwymk6szdzdhIzDdUrmP07nOaPNXfSVhL8R+yHwROmgdIDIWXLRFJuSS4j1WlrX69y4zjtNWSzMMzKl8sgIYJWzukIbqWt3gu4DjpoLpzCazEIXGlikrItC4wxGdrtdb7tuo43vZRdKrsJo6TaSggo2BgaLyta5zrPc2W18xNjlA07wtpSVjTjlbRv1bNSQPyngcmZjhbvbL+S891WHVcMjZAypa97uq8xzsk3jr6Zi0EvOvAm+qfFHie83xjrt7a28yVOfLwtnte3ddQdW6CsPdTVmJ07r3hdFFqLXDHzhp8xY+azWwez9VRY7Rx1UW7c/0p7Oux127icX6hNvArF0jq/PK+L0zPe07mekZrtvpKW63GvrcEgVNW8Cqz1Tt3donzTkMzaECW/Vvmta/PvVC23TFs5Wtq6utMTvRS6LI/eMsCY44wRHmzevceqr+n2SfQ1WGVOECd8NQW+lOz54zE7dnr2AAbkMhBPMC2vHl9XV1b4g+V9U6FxFnSOnMTnA6dZxyk3H5JvDcbqomGOGpniYdcrJZGN11uGg2F73uElsOnAM+1XZLX3EO8txz3f63flyeVlhG68UHFxcS4kkklxcSS4niSTqSlJg2RlTEh1IOnf9VJOqjTBSd12HpWxUMDW21bnJHMuJJV8CufdEdRKYJGu/Ztd92T2nVwHdwW9us0x5lL0bJE2g1QOEpspRKIBKBq6b0DwsbiTXyZevFM2K9r7wbs2HeWbzyBXNSttsJsu6rnihZMyN7onzhxa5xYWFhBblc0tf1jY3uMpVU2e0G09dh78Qpq+CSoiq3SejvdJ902N4e0NYS0jRpZdmhGXhrdP7Bh9Ps7XVDCWT/f3kGjxu2NYwA8RbUjsJKtdjMQlxGnxHDsRLZ/RSYxKWgOf1pmBzh+F7TDmB46jxNPsjOX7L1tzd3+U5u25ax+vk4HzWQG3ZM+zVHUykvmZuHCQkl93ZmEl3Eki3mAVb9J0fpTsEnAuJKmFvlOYZP+WqvaKbJsvRcL3pbA8yHud8gtHsnQ+nYbhDw4D0WWN7r31FO2WAtGnG9j5JSNtRW5tpsMi9nDM/zkjnHyjCiUX+l0/+rD/cxKsq6vebYRDlGBGP/ZvefzeVZUR/zum/1cf7mJSZnpR2ixNtY5rnSNggqmyUpdAAzPG27CJCzr8X6XPBa07Y1v8AJr7R3o9JvbPkZb+ebr1LZfV04LB9LGMVz6yeGUyGlimvDeMCNpLMos8NufWdzV64/wCZtv4v/kFJZ9C9Y+alxOaQ5nySukebAXc+JznGw0GpKy3RdVb3DsUoHHV1M6ojB7WsLXH3thWi6B/5jiHe7/klYbouhlZicMDg6MzRzxPD2lpLH08h4EcMzGn+qpLrpSqvR6DC8PaReOBlRIP48oawkf0nTHVYTEK7euDt2yMNblAY1ovawBdlAu7KGg8tNAL2V90uzl2K1DSdIxDEwdjGwsIHvc4+ay2bRJSHagFJJRE8EWYXI930SBBIyFxDRxJAHiTYfNKcFdbDUe9rogeDCXnwaLj87ILr+B4a2mgjhYNGt173HVx95KsA5MueiDwsbTzUgEEGrSGUQSnpKUdYy5A7SBr3laPDauSmmBp32maQY5GW6psQ5puCHNIvcHRUFMNT4K2c0CBjgLHMdRofxc/IKTVYjt9iU7JKfOxjn3bJuIWsc8EZXXkubX4XAB71V4DtNUULT6JJo8HfxSM3kRsMoOUjTTS4PCwKq6z7tkTmdUuZ1iOd3OH6D3KPTSEMkA5hvzt8iVaDQbSbU1NY+Nk0rHsDQI2sYI44s4LCQ0HV2W4uSbX0snMF2zxGjjNLTTsaxhkcAY2OGpzOsXNvxJVKxg9H4cX6+RTGIxhsMZAsTmuRxPmnSFFtTVCt+0A8ek5i7PkaRdzCw9S1vVNlKbtxWtrXV4kb6Q5uQu3bLFuUNtktbg0LORJbggtPj3SFiFdFuKiVro8zX2Ecbes3hqB3qH/Kyr9C+z87fRr3yZG3/a7317X9bVUTUpSaLZjbKtw9r2UsjWNkcHOBjY+5AsNXDTRLqds619WyvfK01EbcrHbtlg2z22LLWOkjves80ahFIpJmLYpLVzvqJnB0khBeQ0NBIaGjqjQaAJqyYiTpUROf1vyTma6jNS2HXzVsaP5u1bfotg680p5BrB4nU/osQ5dB6OP5u/8A8w/3Qq1NwZkN6oZKK6yn/9k=</base64EncodedContent>
+		</virtualImage>
+		
+		<image>
+			<displayText>JPG File</displayText>
+			<gopherPath>extra/funny.jpg.png</gopherPath>
+			<resourcePath>images/funny.jpg</resourcePath>
+		</image>
+    </gophermap>
+  </virtualDirectory>
+   
+   <info></info>
+  <info>Download some disks!</info>
+  <binaryArchive>
+  	<displayText>Disks!</displayText>
+  	<gopherPath>disks.zip</gopherPath>
+  	<resourcePath>/a2diskii.zip</resourcePath>
+  </binaryArchive>
   
+  <info></info>
   <info>An RSS2 Feed Resource Example</info>
-  <info>Coming soon...</info>
+  <rss2Feed>
+  	<displayText>VCFed Apple I, ][, /// Forums</displayText>
+  	<gopherPath>rss/vcfed/earlyapple</gopherPath>
+  	<resourcePath><![CDATA[http://www.vcfed.org/forum/external.php?type=RSS2&forumids=20]]></resourcePath>
+  </rss2Feed>
   
+  <rss2Feed>
+  	<displayText>Apple Fritter - Apple I</displayText>
+  	<gopherPath>rss/applefritter/apple_i</gopherPath>
+  	<resourcePath><![CDATA[http://www.applefritter.com/?q=taxonomy/term/80/0/feed]]></resourcePath>
+  </rss2Feed> 
+  
+  <rss2Feed>
+  	<displayText>Reuters Business News</displayText>
+  	<gopherPath>rss/reuters/businessnews</gopherPath>
+  	<resourcePath><![CDATA[http://feeds.reuters.com/reuters/businessNews?format=xml]]></resourcePath>
+  </rss2Feed>
+  
+  <rss2Feed>
+  	<displayText>FoxNews</displayText>
+  	<gopherPath>rss/foxnews</gopherPath>
+  	<resourcePath><![CDATA[http://feeds.foxnews.com/foxnews/latest?format=xml]]></resourcePath>
+  </rss2Feed>  
+  
+  <rss2Feed>
+  	<displayText>Live Science</displayText>
+  	<gopherPath>rss/livescience</gopherPath>
+  	<resourcePath><![CDATA[http://www.livescience.com/home/feed/site.xml]]></resourcePath>
+  </rss2Feed>  
+  
+   <rss2Feed>
+  	<displayText>Giveaway of the Day</displayText>
+  	<gopherPath>rss/giveaway</gopherPath>
+  	<resourcePath><![CDATA[http://feeds.feedburner.com/giveawayoftheday/feed?format=xml]]></resourcePath>
+  </rss2Feed>  
+  
+  
+  
+     
 </gopher:gophermap>

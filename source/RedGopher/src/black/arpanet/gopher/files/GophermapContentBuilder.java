@@ -374,7 +374,7 @@ public class GophermapContentBuilder implements ContentBuilder {
 			w(LOG, String.format("Skipping item - No gopherpath found: Item: %s, Display Text: %s", el.getName(), displayText));
 			return null;
 		}
-
+		
 		String virtualGopherPath = parentPath + gopherPath;
 
 		return GopherItemBuilder.buildSearch(displayText, virtualGopherPath, resourcePath, parentPath, itemDomain, itemPort, persistent);

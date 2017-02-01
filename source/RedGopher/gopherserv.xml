@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serv:serv xmlns:serv="http://arpanet.black/gopher/serv" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://arpanet.black/gopher/serv gopherserv.xsd ">
-	
+<serv:serv xmlns:serv="http://arpanet.black/gopher/serv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://arpanet.black/gopher/serv gopherserv.xsd ">
   <settings>
     <domainName>localhost</domainName>
     <contentDirectory>C:\\nick\\dev\\gopher</contentDirectory>
@@ -16,5 +13,13 @@
     		<value>GOPHERMAP</value>
     	</param>
     </monitor>
+    <searchClient>
+    	<resourcePath>google.com</resourcePath>
+    	<className>black.arpanet.gopher.search.GoogleSearchClient</className>
+    </searchClient>
+    <searchClient>
+    	<resourcePath>localhost</resourcePath>
+    	<className>black.arpanet.gopher.search.LocalSearchClient</className>
+    </searchClient>
   </content>
 </serv:serv>

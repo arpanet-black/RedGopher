@@ -185,8 +185,6 @@ public class Rss2FeedContentHandler extends DirectoryContentHandler {
 		}
 	}
 	
-	
-	
 	private String buildItemContent(Rss2Item rss2item) {
 		
 		StringBuilder sb = new StringBuilder();

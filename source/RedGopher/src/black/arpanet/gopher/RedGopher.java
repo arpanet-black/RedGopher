@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 
 import black.arpanet.gopher.db.RedGopherDbInit;
+import black.arpanet.gopher.search.SearchClient;
+import black.arpanet.gopher.search.SearchClientFactory;
 import black.arpanet.gopher.server.RedGopherAdminServer;
 import black.arpanet.gopher.server.RedGopherServer;
 import black.arpanet.gopher.server.RedGopherServerProperties;
@@ -43,7 +45,6 @@ public class RedGopher {
 
 	private static final Logger LOG = LogManager.getLogger(RedGopher.class);
 
-//	private static Properties props;
 	private static Map<String,Object> config;
 	private static ThreadPoolExecutor tpe;
 	private static RedGopherServer gopherServer;
@@ -58,6 +59,8 @@ public class RedGopher {
 		initThreadPool();
 
 		initDatabase();
+		
+		initSearchClients();
 
 		startContentMonitors();
 
@@ -120,6 +123,27 @@ public class RedGopher {
 			}
 		}
 
+	}
+	
+	private static void initSearchClients() {
+		@SuppressWarnings("unchecked")
+		Map<String,String> searchClasses = (Map<String,String>)config.get(ConfigurationReader.SEARCH_CLASSES);
+		
+		for(String resourcePath : searchClasses.keySet()) {
+			String searchClass = searchClasses.get(resourcePath);
+			
+			try {
+				@SuppressWarnings("unchecked")
+				Class<? extends SearchClient> clazz = (Class<? extends SearchClient>)RedGopher.class.getClassLoader().loadClass(searchClass);
+				
+				SearchClientFactory.registerClient(resourcePath, clazz);
+				
+			} catch (ClassNotFoundException ex) {
+				w(LOG, String.format("Exception initializing search client: %s, %s", resourcePath, searchClass), ex);
+			}
+			
+		}
+		
 	}
 
 	private static void startContentMonitors() {

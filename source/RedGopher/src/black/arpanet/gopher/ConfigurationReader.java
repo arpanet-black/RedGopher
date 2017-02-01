@@ -22,6 +22,7 @@ import org.jdom2.input.SAXBuilder;
 public class ConfigurationReader {
 	
 	public static final String MONITOR_CLASSES = "MONITOR_CLASSES";
+	public static final String SEARCH_CLASSES = "SEARCH_CLASSES";
 	public static final String DOMAIN_NAME = "DOMAIN_NAME";
 	public static final String PORT = "PORT";
 	public static final String CONTENT_DIR = "CONTENT_DIR";
@@ -50,6 +51,8 @@ public class ConfigurationReader {
 	private static final String MAX_POOL_SIZE_ELEMENT = "maxThreadPoolSize";	
 	private static final String POOL_KEEP_ALIVE_TIME_ELEMENT = "threadPoolKeepAliveTimeMs";
 	private static final String CONTENT_MONITOR_ELEMENT = "monitor";
+	private static final String SEARCH_CLIENT_ELEMENT = "searchClient";
+	private static final String RESOURCE_PATH_ELEMENT = "resourcePath";
 	private static final String CLASS_NAME_ELEMENT = "className";
 	private static final String PARAM_ELEMENT = "param";
 	private static final String KEY_ELEMENT = "key";
@@ -206,6 +209,32 @@ public class ConfigurationReader {
 									t(LOG, String.format(" -- %s: %s", key, params.get(key)));									
 								}
 							}
+						}
+						t(LOG, "-------------------------");
+						t(LOG, "");
+					}
+				}
+				
+				List<Element> searchElements = content.getChildren(SEARCH_CLIENT_ELEMENT);
+				
+				if(searchElements != null) {
+					
+					Map<String,String> searchClasses = new HashMap<String,String>(searchElements.size());
+					
+					for(Element el : searchElements) {
+						String resourcePath = el.getChildText(RESOURCE_PATH_ELEMENT);
+						String searchClass = el.getChildText(CLASS_NAME_ELEMENT);
+						searchClasses.put(resourcePath, searchClass);
+					}
+					
+					config.put(SEARCH_CLASSES, searchClasses);
+					
+					if(LOG.isTraceEnabled()) {
+						t(LOG, "");
+						t(LOG, "-------------------------");
+						t(LOG, "Supported Search Clients: ");
+						for(String searchKey : searchClasses.keySet()) {
+							t(LOG, String.format(" -- %s: %s", searchKey, searchClasses.get(searchKey)));
 						}
 						t(LOG, "-------------------------");
 						t(LOG, "");

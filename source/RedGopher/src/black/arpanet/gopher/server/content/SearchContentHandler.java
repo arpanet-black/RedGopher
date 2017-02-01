@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import black.arpanet.gopher.db.entities.GopherItem;
+import black.arpanet.gopher.search.SearchClient;
+import black.arpanet.gopher.search.SearchClientFactory;
 
 public class SearchContentHandler implements ContentHandler {
 
@@ -19,7 +21,9 @@ public class SearchContentHandler implements ContentHandler {
 		
 		d(LOG, String.format("Searching %s with string %s", searchServer, inputItems[1]));
 		
-		return null;
+		SearchClient client = SearchClientFactory.getSearchClientByResourcePath(searchServer);
+		
+		return client.doSearch(item, inputItems[0], inputItems[1]);
 	}
 
 }
