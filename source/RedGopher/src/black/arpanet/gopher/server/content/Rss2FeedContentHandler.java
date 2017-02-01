@@ -100,8 +100,7 @@ public class Rss2FeedContentHandler extends DirectoryContentHandler {
 		
 		for(Rss2Item rss2item : fc.getItems()) {
 			String itemContent = buildItemContent(rss2item);
-			
-			//TODO: Don't use the title as the path
+
 			String itemPath = feedGopherPath + createItemId(rss2item.getTitle());
 			
 			String itemTitle = rss2item.getTitle();			

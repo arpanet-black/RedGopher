@@ -29,7 +29,8 @@
 	<xs:complexType name="serverContent">
 		<xs:sequence>			
 			<xs:element name="monitor" type="serv:contentMonitor" minOccurs="1" maxOccurs="unbounded" />	
-			<xs:element name="searchClient" type="serv:searchClient" minOccurs="0" maxOccurs="unbounded" />			
+			<xs:element name="searchClient" type="serv:searchClient" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="rssFeed" type="serv:rssFeed" minOccurs="0" maxOccurs="unbounded" />			
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -44,6 +45,20 @@
 		<xs:sequence>
 			<xs:element name="resourcePath" type="xs:string" minOccurs="1" maxOccurs="1" />			
 			<xs:element name="className" type="xs:string" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="rssFeed">
+		<xs:sequence>
+			<xs:element name="resourcePath" type="xs:string" minOccurs="1" maxOccurs="1" />			
+			<xs:element name="feedUrl" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="eagerLoad"  type="xs:boolean" minOccurs="0" maxOccurs="1" />
+			<xs:element name="bannerText"  type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="dividerText"  type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="stripHtml"  type="xs:boolean" minOccurs="0" maxOccurs="1" />
+			<xs:element name="splitLines"  type="xs:boolean" minOccurs="0" maxOccurs="1" />
+			<xs:element name="lineLength"  type="xs:int" minOccurs="0" maxOccurs="1" />
+			<xs:element name="itemsAreDirectories"  type="xs:boolean" minOccurs="0" maxOccurs="1" />			
 		</xs:sequence>
 	</xs:complexType>
 	
