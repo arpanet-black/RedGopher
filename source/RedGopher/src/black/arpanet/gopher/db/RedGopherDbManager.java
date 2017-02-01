@@ -35,25 +35,23 @@ public class RedGopherDbManager {
 	private static final EntityManager em = EM_FACTORY.createEntityManager();	
 
 	public static ResourceDescriptor createResourceDescriptor(GopherResourceType grt, ServerResourceType srt, String description) {
-		t(LOG,"In createResourceDescriptor(GopherResourceType,ServerResourceType,String).");
+		t(LOG,String.format("Creating resource descriptor: %s/%s/%s", grt.toString(), srt.toString(), description));
 		ResourceDescriptor rd = new ResourceDescriptor();
 		rd.setGopherResourceType(grt.ordinal());
 		rd.setServerResourceType(srt.ordinal());
 		rd.setResourceDescription(description);		
 		rd = em.merge(rd);
 
-		t(LOG,"Out createResourceDescriptor(GopherResourceType,ServerResourceType,String).");
 		return rd;
 	}
 
 	public static ServerFileType createServerFileType(String fileExtension, ResourceDescriptor resourceDescriptor) {
-		t(LOG,"In createServerFileType(String,ResourceDescriptor).");
+		t(LOG,String.format("Creating server file type: %s/%s/%s", resourceDescriptor.getGopherResourceType(), resourceDescriptor.getServerResourceType(), fileExtension));
 		ServerFileType sft = new ServerFileType();
 		sft.setFileExtension(fileExtension);
 		sft.setResourceDescriptor(resourceDescriptor);
 		sft = em.merge(sft);
 
-		t(LOG,"Out createServerFileType(String,ResourceDescriptor).");
 		return sft;
 	}
 
@@ -113,7 +111,7 @@ public class RedGopherDbManager {
 	}
 
 	public static GopherItem mergeGopherItem(GopherItem gi) {
-
+		t(LOG,String.format("Merging gopher item: %s/%s", gi.getGopherPath(), gi.getDisplayText()));
 		EntityTransaction et = em.getTransaction();
 		try {
 			//Item commit order needs to be maintained
@@ -137,7 +135,7 @@ public class RedGopherDbManager {
 	}
 
 	public static ResourceDescriptor findResourceDescriptor(GopherResourceType grt, ServerResourceType srt) {
-
+		t(LOG,String.format("Finding resource descriptor: %s/%s", grt.toString(), srt.toString()));
 		TypedQuery<ResourceDescriptor> q = em.createNamedQuery("ResourceDescriptor.findByResourceTypes", ResourceDescriptor.class);
 
 		q.setParameter("grt", grt.ordinal());
@@ -149,7 +147,7 @@ public class RedGopherDbManager {
 	}
 
 	public static ServerFileType findServerFileTypeByExt(String extension) {
-
+		t(LOG,String.format("Finding file type by extension: %s", extension));
 		TypedQuery<ServerFileType> q = em.createNamedQuery("ServerFileType.findByFileExtension", ServerFileType.class);
 
 		q.setParameter("ext", extension);

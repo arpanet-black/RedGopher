@@ -22,6 +22,8 @@ public class FeedClient {
 	
 	private static final String EXCEPTION_MESSAGE = "Exception occurred retrieving URL: %s";	
 	private static final String CONTENT_TYPE_HEADER = "Content-Type";	
+	private static final String CHARSET_TEXT = "charset";
+	private static final String UTF8_CHARSET_NAME = "UTF-8";
 	private static final Logger LOG = LogManager.getLogger(FeedClient.class);
 
 	public static FeedResponse readFeed(String url) {
@@ -52,13 +54,23 @@ public class FeedClient {
 		}
 		
 		try {
-			Charset cs = Charset.forName(headers[0].getValue().split(";")[1].split("=")[1]);
+			Charset cs = null;
+			
+			
+			for(Header header : headers) {
+				if(header.getValue().contains(CHARSET_TEXT)) {
+					cs = Charset.forName(header.getValue().split(";")[1].split("=")[1]);
+					break;
+				}
+			}
+			
+			
 			if(cs != null) {
 				return cs;
 			}
 		} catch(IllegalArgumentException iae) {}
 		
-		return Charset.defaultCharset();
+		return Charset.forName(UTF8_CHARSET_NAME);
 	}
 
 	protected static String parseEntityData(HttpEntity entity, Charset charset) throws UnsupportedOperationException, IOException {

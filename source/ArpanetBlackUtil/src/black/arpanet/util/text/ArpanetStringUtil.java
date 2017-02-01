@@ -1,4 +1,4 @@
-package black.arpanet.util.logging;
+package black.arpanet.util.text;
 
 import static black.arpanet.util.logging.ArpanetLogUtil.w;
 

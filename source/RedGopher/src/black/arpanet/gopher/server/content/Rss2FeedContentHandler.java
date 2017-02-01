@@ -1,12 +1,15 @@
 package black.arpanet.gopher.server.content;
 
 import static black.arpanet.util.logging.ArpanetLogUtil.t;
+import static black.arpanet.util.logging.ArpanetLogUtil.w;
 
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +23,8 @@ import black.arpanet.gopher.feeds.FeedResponse;
 import black.arpanet.gopher.feeds.rss2.Rss2Channel;
 import black.arpanet.gopher.feeds.rss2.Rss2Item;
 import black.arpanet.gopher.feeds.rss2.Rss2Parser;
-import black.arpanet.util.logging.ArpanetStringUtil;
+import black.arpanet.util.security.ArpanetHashUtil;
+import black.arpanet.util.text.ArpanetStringUtil;
 
 public class Rss2FeedContentHandler extends DirectoryContentHandler {
 	//TODO: Make line length a configurable property
@@ -98,7 +102,7 @@ public class Rss2FeedContentHandler extends DirectoryContentHandler {
 			String itemContent = buildItemContent(rss2item);
 			
 			//TODO: Don't use the title as the path
-			String itemPath = feedGopherPath + rss2item.getTitle();
+			String itemPath = feedGopherPath + createItemId(rss2item.getTitle());
 			
 			String itemTitle = rss2item.getTitle();			
 			
@@ -118,10 +122,26 @@ public class Rss2FeedContentHandler extends DirectoryContentHandler {
 //			RedGopherDbManager.mergeGopherItem(infoItem);
 		}
 		
+		buildFeedFooter(fc, feedGopherPath, feedLink.isPersistOverRestart());
+		
 		if(StringUtils.isNotBlank(fc.getTtl())) {
 			feedLink.setTtlMinutes(Integer.valueOf(fc.getTtl()));
 		}
 				
+	}
+
+	private String createItemId(String itemStr) {
+		
+		String hashStr = "";
+		
+		try {
+			hashStr = new String(Base64.encodeBase64(ArpanetHashUtil.hash(itemStr)));
+		} catch (NoSuchAlgorithmException ex) {
+			w(LOG, "Hash algorithm not found.", ex);
+			hashStr = itemStr.toLowerCase();
+		}
+		
+		return hashStr;
 	}
 
 	private void buildFeedHeader(Rss2Channel fc, String gopherDir, boolean persistent) {
@@ -131,24 +151,41 @@ public class Rss2FeedContentHandler extends DirectoryContentHandler {
 		GopherItem infoItem = GopherItemBuilder.buildInfo(sb.toString(), gopherDir, persistent);
 		RedGopherDbManager.mergeGopherItem(infoItem);
 		
-		infoItem = GopherItemBuilder.buildInfo("", gopherDir, persistent);
-		RedGopherDbManager.mergeGopherItem(infoItem);
-		
-		infoItem = GopherItemBuilder.buildInfo(fc.getDescription(), gopherDir, persistent);
-		RedGopherDbManager.mergeGopherItem(infoItem);
-		
-		infoItem = GopherItemBuilder.buildInfo("", gopherDir, persistent);
-		RedGopherDbManager.mergeGopherItem(infoItem);
-		
-		if(StringUtils.isNotBlank(fc.getCopyright())) {
-			infoItem = GopherItemBuilder.buildInfo(fc.getCopyright(), gopherDir, persistent);
+		if(StringUtils.isNotBlank(fc.getDescription())) {
+			infoItem = GopherItemBuilder.buildInfo("", gopherDir, persistent);
+			RedGopherDbManager.mergeGopherItem(infoItem);
+
+			infoItem = GopherItemBuilder.buildInfo(fc.getDescription(), gopherDir, persistent);
 			RedGopherDbManager.mergeGopherItem(infoItem);
 		}
+		
+		infoItem = GopherItemBuilder.buildInfo("", gopherDir, persistent);
+		RedGopherDbManager.mergeGopherItem(infoItem);
 		
 		infoItem = GopherItemBuilder.buildInfo(DIVIDER, gopherDir, persistent);
 		RedGopherDbManager.mergeGopherItem(infoItem); 
 		
 	}
+	
+	private void buildFeedFooter(Rss2Channel fc, String gopherDir, boolean persistent) {
+		
+		GopherItem infoItem = GopherItemBuilder.buildInfo("", gopherDir, persistent);
+		RedGopherDbManager.mergeGopherItem(infoItem);
+		
+		infoItem = GopherItemBuilder.buildInfo(DIVIDER, gopherDir, persistent);
+		RedGopherDbManager.mergeGopherItem(infoItem); 
+		
+		if(StringUtils.isNotBlank(fc.getCopyright())) {
+			infoItem = GopherItemBuilder.buildInfo("", gopherDir, persistent);
+			RedGopherDbManager.mergeGopherItem(infoItem);
+			//Remove weird copyright symbol
+			String copyright = fc.getCopyright().replaceAll(String.valueOf((char)65533), "(c)");
+			infoItem = GopherItemBuilder.buildInfo("Copyright: " + copyright, gopherDir, persistent);
+			RedGopherDbManager.mergeGopherItem(infoItem);
+		}
+	}
+	
+	
 	
 	private String buildItemContent(Rss2Item rss2item) {
 		
